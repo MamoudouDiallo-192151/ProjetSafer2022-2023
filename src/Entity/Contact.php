@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -20,26 +21,35 @@ class Contact
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 100, minMessage: "Le nom doit contenir au  moins {{ limit }} caractères")]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, minMessage: "Le nom doit contenir au  moins {{ limit }} caractères")]
     private $prenom;
 
     /**
      * @ORM\Column(type="integer", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Regex(pattern: "/^[0-9]{8}$/")]
     private $numeroTelephone;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\Email]
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 5, minMessage: "Le message doit contenir au  moins {{ limit }} caractères")]
     private $message;
 
     public function getId(): ?int
