@@ -1,0 +1,46 @@
+{% block title %}Bien index
+{% endblock %}
+
+{% block body %}
+	<h1>Bien index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Titre</th>
+				<th>Ville</th>
+				<th>CodePostal</th>
+				<th>Description</th>
+				<th>Surface</th>
+				<th>Prix</th>
+				<th>StatusBien</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for bien in biens %}
+				<tr>
+					<td>{{ bien.id }}</td>
+					<td>{{ bien.titre }}</td>
+					<td>{{ bien.ville }}</td>
+					<td>{{ bien.codePostal }}</td>
+					<td>{{ bien.description }}</td>
+					<td>{{ bien.surface }}</td>
+					<td>{{ bien.prix }}</td>
+					<td>{{ bien.statusBien }}</td>
+					<td>
+						<a href="{{ path('app_bien_show', {'id': bien.id}) }}">show</a>
+						<a href="{{ path('app_bien_edit', {'id': bien.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_bien_new') }}">Create new</a>
+{% endblock %}

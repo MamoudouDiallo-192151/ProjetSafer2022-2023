@@ -1,0 +1,10 @@
+{% block title %}New Bien
+{% endblock %}
+
+{% block body %}
+	<h1>Create new Bien</h1>
+
+	{{ include('admin/bien/_form.html.twig') }}
+
+	<a href="{{ path('app_bien_index') }}">back to list</a>
+{% endblock %}

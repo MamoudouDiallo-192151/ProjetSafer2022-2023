@@ -52,11 +52,16 @@ class Bien
     private $statusBien;
 
     //Cette colonne permet de supprimer tous les biens affectés  à une categorie qui vas être supprimer
-    #[ORM\JoinColumn(onDelete: "CASCADE")]
     /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="biens")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $categorie;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
 
     public function getId(): ?int
     {
@@ -148,6 +153,18 @@ class Bien
     public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
