@@ -28,4 +28,20 @@ class ContactNotification
             ]);
         $this->mailer->send($message);
     }
+
+    public function notifyContactBien(Contact $contact)
+    {
+        $message  = (new TemplatedEmail())
+            ->from($contact->getEmail())
+            ->subject('Demande de contact pour un bien:' . $contact->getBien()->getTitre())
+            ->to('safer.support@gmail.com')
+            ->replyTo($contact->getEmail())
+            ->htmlTemplate(
+                'email/contact_bien.html.twig',
+            )
+            ->context([
+                'contact' => $contact,
+            ]);
+        $this->mailer->send($message);
+    }
 }

@@ -3,10 +3,16 @@
 namespace App\Repository;
 
 use App\Entity\Bien;
+use App\Entity\BienSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
+use Knp\Component\Pager\PaginatorInterface;
+
+
 
 /**
  * @extends ServiceEntityRepository<Bien>
@@ -18,12 +24,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BienRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * Undocumented variable
+     *
+     * @var $paginator
+     */
+    private $paginator;
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Bien::class);
+        $this->paginator = $paginator;
     }
 
     /**
+     * Cette methode permet de persister les entités dans la base de données
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -36,6 +50,7 @@ class BienRepository extends ServiceEntityRepository
     }
 
     /**
+     * Cette methode permet de supprimer des entités 
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -46,6 +61,69 @@ class BienRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+
+
+    /**
+     * Cette function permet de paginer les  biens et d'effectuer une recherche multicritère
+     */
+
+    public function paginateAllVisibleQuery(BienSearch $search, int $page)
+    {
+        $query = $this->findVisibleQuery();
+        if ($search->getMaxPrice()) {
+            $query = $query
+                //andWhere traite une à une les requêtes
+                // p.prix<=:maxprice signifie que le prix de notre bien soit inferieur au prix données
+                ->andwhere('p.prix<=:maxprice')
+                ->setParameter('maxprice', $search->getMaxPrice());
+        }
+        if ($search->getTitre()) {
+            $query = $query
+                //andWhere traite une à une les requêtes
+                // p.nom<=:maxprice signifie que le nom de notre bien soit inferieur au prix données
+                ->andwhere('p.titre  LIKE :titreBien')
+                ->setParameter('titreBien', '%' . $search->getTitre() . '%');
+        }
+        if ($search->getMinSurface()) {
+            $query = $query
+                ->andwhere('p.surface>= :minsurface')
+                ->setParameter('minsurface', $search->getMinSurface());
+        }
+
+        $biens = $this->paginator->paginate(
+            $query->getQuery(), //// Requête contenant les données à paginer (ici nos properties)
+            $page, //// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            3
+        );
+        //  $pictures = $this->findForProperties($properties->getItems());
+        return $biens;
+    }
+
+    /**
+     * cette function permet de recuperer les 3 dernièrs biens
+     *@param Bien $bien
+     *@return Bien
+     */
+    public function findLatestBien(): array
+    {
+        return $this->findVisibleQuery()
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * cette function permet de génerer la requete pour tous les enrégistrements visible et aficher les biens 
+     *
+     * @return QueryBuilder
+     */
+    private function findVisibleQuery(): ORMQueryBuilder
+    {
+        return $this->createQueryBuilder('p');
+        //->where('p.isFavoris=false');
+    }
+
 
     // /**
     //  * @return Bien[] Returns an array of Bien objects

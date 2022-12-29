@@ -44,6 +44,12 @@ class Contact
      */
     #[Assert\Email]
     private $email;
+    /**
+     * Undocumented variable
+     *
+     * @var Bien
+     */
+    private $bien;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -113,6 +119,30 @@ class Contact
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * Get undocumented variable
+     *
+     * @return  Bien
+     */
+    public function getBien()
+    {
+        return $this->bien;
+    }
+
+    /**
+     * Set undocumented variable
+     *
+     * @param  Bien  $bien  Undocumented variable
+     *
+     * @return  self
+     */
+    public function setBien(Bien $bien)
+    {
+        $this->bien = $bien;
 
         return $this;
     }

@@ -29,6 +29,7 @@ class BienController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $bien->setIsFavoris(false);
             $bienRepository->add($bien, true);
 
             return $this->redirectToRoute('app_bien_index', [], Response::HTTP_SEE_OTHER);

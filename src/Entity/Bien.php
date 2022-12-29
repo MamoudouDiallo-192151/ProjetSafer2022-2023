@@ -63,6 +63,11 @@ class Bien
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="boolean",options={"default":false})
+     */
+    private $isFavoris;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +170,18 @@ class Bien
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getIsFavoris(): ?bool
+    {
+        return $this->isFavoris;
+    }
+
+    public function setIsFavoris(bool $isFavoris): self
+    {
+        $this->isFavoris = $isFavoris;
 
         return $this;
     }

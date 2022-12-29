@@ -11,10 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function index(CategorieRepository $categorieRepository): Response
+    public function index(BienRepository $bienRepository): Response
     {
+        $biens = $bienRepository->findLatestBien();
         return $this->render('pages/accueil.html.twig', [
-            'categories' => $categorieRepository->findAll(),
+            'biens' => $biens,
         ]);
     }
 }
