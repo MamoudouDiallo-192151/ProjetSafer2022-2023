@@ -78,7 +78,7 @@ class ContactType extends AbstractType
                 NumberType::class,
 
                 [
-                    "label"  => 'Numéro de téléphone <span class="text-danger">*</span>',
+                    "label"  => 'Téléphone <span class="text-danger">*</span>',
                     'label_html' => true,
                     'attr' => [
                         'class' => 'form-control',

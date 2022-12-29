@@ -12,7 +12,7 @@
 			{% for bien in biens %}
 				<div class="col-lg-4 col-md-6">
 					<div class="property-item">
-						<div class="pi-pic set-bg" data-setbg="img/property/property-1.jpg">
+						<div class="pi-pic set-bg" data-setbg="{{asset('img/property/property-1.jpg')}}">
 							{% if bien.statusBien==1 %}
 								<div class="label c-red">En vente</div>
 							{% else %}
@@ -32,7 +32,7 @@
 								</span>
 							</div>
 							<h5>
-								<a href="#">{{bien.titre}}</a>
+								<a href="{{path('bien_show',{id:bien.id})}}">{{bien.titre}}</a>
 							</h5>
 							<p>
 								<span class="icon_pin_alt"></span>
@@ -46,7 +46,7 @@
 							<div class="pi-agent">
 								<div class="pa-item">
 									<div class="pa-info">
-										<img src="img/property/posted-by/pb-1.jpg" alt="">
+										<img src="{{asset('img/property/posted-by/pb-1.jpg')}}" alt="">
 										<h6>Ashton Kutcher</h6>
 									</div>
 									<div class="pa-text">

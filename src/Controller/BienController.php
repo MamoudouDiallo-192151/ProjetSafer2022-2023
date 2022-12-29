@@ -9,12 +9,14 @@ use App\Form\BienSearchType;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
 use App\Repository\BienRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/biens')]
 class BienController extends AbstractController
 {
     /**
@@ -26,7 +28,7 @@ class BienController extends AbstractController
         $this->repository = $repository;
         $this->em = $em;
     }
-    #[Route('/biens', name: 'bien_index')]
+    #[Route('/', name: 'bien_index')]
     public function index(BienRepository $rep, Request $request): Response
     {
         $search = new BienSearch();
@@ -41,10 +43,10 @@ class BienController extends AbstractController
     /**
      * @param   $bien
      */
-    #[Route('/biens/{id}', name: 'bien_show')]
-    public function show(Bien $bien, Request $request, ContactNotification $notification): Response
+    #[Route('/detail/{id}', name: 'bien_show')]
+    public function show(Bien $bien, Request $request, ContactNotification $notification, CategorieRepository $rep): Response
     {
-
+        $categories = $rep->findAll();
         $contact = new Contact();
         $contact->setBien($bien);
         $form = $this->createForm(ContactType::class, $contact);
@@ -58,6 +60,7 @@ class BienController extends AbstractController
         }
         return $this->render('pages/bien/show.html.twig', [
             'bien' => $bien,
+            'categories' => $categories,
             'current_menu' => 'biens',
             'form' => $form->createView(),
 

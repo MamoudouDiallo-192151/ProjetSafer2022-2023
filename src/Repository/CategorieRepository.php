@@ -48,6 +48,14 @@ class CategorieRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+     * cette function permet de calculer le nbre de service
+     *
+     * @return int
+     */
+
+
     // /**
     //  * @return Categorie[] Returns an array of Categorie objects
     //  */

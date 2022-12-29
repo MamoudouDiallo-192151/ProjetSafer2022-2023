@@ -1,0 +1,385 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{% block title %}
+	Détail
+	{{bien.titre}}
+{% endblock %}
+
+{% block body %}
+	<!DOCTYPE html>
+	<body>
+		<!-- Property Details Section Begin -->
+		<section class="property-details-section">
+			<div class="property-pic-slider owl-carousel">
+				<div class="ps-item">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-lg-12 p-0">
+										<div class="ps-item-inner large-item set-bg" data-setbg="{{asset('img/property/slider/ps-1.jpg')}}"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="{{asset('img/property/slider/ps-2.jpg')}}"></div>
+									</div>
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="{{asset('img/property/slider/ps-2.jpg')}}"></div>
+									</div>
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="{{asset('img/property/slider/ps-4.jpg')}}"></div>
+									</div>
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="{{asset('img/property/slider/ps-5.jpg')}}"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ps-item">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-lg-12 p-0">
+										<div class="ps-item-inner large-item set-bg" data-setbg="img/property/slider/ps-1.jpg"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="row">
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="img/property/slider/ps-2.jpg"></div>
+									</div>
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="img/property/slider/ps-2.jpg"></div>
+									</div>
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="img/property/slider/ps-4.jpg"></div>
+									</div>
+									<div class="col-sm-6 p-0">
+										<div class="ps-item-inner set-bg" data-setbg="img/property/slider/ps-5.jpg"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8">
+						<div class="pd-text">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="pd-title">
+										<a href="#" class="heart-icon">
+											<span class="icon_heart_alt"></span>
+										</a>
+										{% for message in app.flashes('success') %}
+											<div class="alert alert-success">
+												{{message}}
+											</div>
+										{% endfor %}
+										{% if not form.vars.valid %}
+											<div class="alert alert-danger">
+												Erreur au niveau du formulaire
+											</div>
+										{% endif %}
+										{% if bien.statusBien==1 %}
+											<div class="label c-red">En vente</div>
+										{% else %}
+											<div class="label">
+												En Location
+											</div>
+
+										{% endif %}
+										<div class="pt-price">{{bien.prix}}£<span>
+												{% if bien.statusBien==0 %}/mois
+												{% endif %}
+											</span>
+										</div>
+										<h3>{{bien.titre}}</h3>
+										<p>
+											<span class="icon_pin_alt"></span>
+											{{bien.ville}}({{bien.codePostal}})</p>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="pd-social">
+										<a href="#">
+											<i class="fa fa-mail-forward"></i>
+										</a>
+										<a href="#">
+											<i class="fa fa-send"></i>
+										</a>
+										<a href="#">
+											<i class="fa fa-heart"></i>
+										</a>
+										<a href="#">
+											<i class="fa fa-mail-forward"></i>
+										</a>
+										<a href="#">
+											<i class="fa fa-cloud-download"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="pd-board">
+								<div class="tab-board">
+									<ul class="nav nav-tabs" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Aperçu
+											</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Description</a>
+										</li>
+									</ul>
+									<!-- Tab panes -->
+									<div class="tab-content">
+										<div class="tab-pane active" id="tabs-1" role="tabpanel">
+											<div class="tab-details">
+												<ul class="left-table">
+													<li>
+														<span class="type-name">Categorie bien</span>
+														<span class="type-value">{{bien.categorie.designation}}</span>
+													</li>
+													<li>
+														<span class="type-name">ID bien</span>
+														<span class="type-value">{{bien.id}}</span>
+													</li>
+													<li>
+														<span class="type-name">Prix</span>
+														<span class="type-value">{{bien.prix}}
+															{% if bien.statusBien==0 %}/mois
+															{% endif %}
+														</span>
+													</li>
+													<li>
+														<span class="type-name">Type de contrat</span>
+														{% if bien.statusBien==1 %}
+															<span class="type-value">En vente</span>
+														{% else %}
+															<span class="type-value">
+																En Location
+															</span>
+														{% endif %}
+													</li>
+													<li>
+														<span class="type-name">Agent</span>
+														<span class="type-value">Diallo Mamoudou</span>
+													</li>
+												</ul>
+
+											</div>
+										</div>
+										<div class="tab-pane" id="tabs-2" role="tabpanel">
+											<div class="tab-desc">
+												<p>{{bien.description}}</p>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class="pd-widget">
+								<h4>
+									PLANS D'ÉTAGE</h4>
+								<img src="{{asset('img/property/details/floor-plan.jpg')}}" alt="">
+							</div>
+							<div class="pd-widget">
+								<h4>
+									PLANS D'ÉTAGE</h4>
+								<div class="map">
+									<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d735515.5813275519!2d-80.41163541934742!3d43.93644386501528!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882a55bbf3de23d7%3A0x3ada5af229b47375!2sMono%2C%20ON%2C%20Canada!5e0!3m2!1sen!2sbd!4v1583262687289!5m2!1sen!2sbd" height="350" style="border:0;" allowfullscreen=""></iframe>
+								</div>
+								<div class="map-location">
+									<div class="row">
+										<div class="col-lg-6">
+											<div class="ml-item">
+												<div class="ml-single-item">
+													<h6>Hospital
+														<span>(
+															<i class="fa fa-location-arrow"></i>
+															5 km )</span>
+													</h6>
+													<p>Portland Ave Rochester, NY 14621</p>
+												</div>
+												<div class="ml-single-item">
+													<h6>Schools
+														<span>(
+															<i class="fa fa-location-arrow"></i>
+															8 km )</span>
+													</h6>
+													<p>Cragin Elementary School</p>
+												</div>
+												<div class="ml-single-item">
+													<h6>Store
+														<span>(
+															<i class="fa fa-location-arrow"></i>
+															2 km )</span>
+													</h6>
+													<p>Exceptional Shoes & Clothing</p>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6">
+											<div class="ml-item">
+												<div class="ml-single-item">
+													<h6>Laundry
+														<span>(
+															<i class="fa fa-location-arrow"></i>
+															3 km )</span>
+													</h6>
+													<p>Besst at laundry</p>
+												</div>
+												<div class="ml-single-item">
+													<h6>Health
+														<span>(
+															<i class="fa fa-location-arrow"></i>
+															5 km )</span>
+													</h6>
+													<p>Boomerang Barber & Beauty</p>
+												</div>
+												<div class="ml-single-item">
+													<h6>Health
+														<span>(
+															<i class="fa fa-location-arrow"></i>
+															5 km )</span>
+													</h6>
+													<p>Boomerang Barber & Beauty</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="pd-widget">
+								<h4>Agent</h4>
+								<div class="pd-agent">
+									<div class="agent-pic">
+										<img src="img/property/details/agent.jpg" alt="">
+									</div>
+									<div class="agent-text">
+										<div class="at-title">
+											<h6>Ashton Kutcher</h6>
+											<span>Founder & CEO</span>
+											<a href="#" class="primary-btn">VIew profile</a>
+										</div>
+										<p>Lorem ipsum dolor sit amet, consectetur adipis cing elit, eiusmod tempor incididunt</p>
+										<div class="at-option">
+											<div class="at-number">0753181404</div>
+											<div class="at-social">
+												<a href="#">
+													<i class="fa fa-facebook"></i>
+												</a>
+												<a href="#">
+													<i class="fa fa-twitter"></i>
+												</a>
+												<a href="#">
+													<i class="fa fa-envelope-o"></i>
+												</a>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="property-sidebar">
+							<div class="single-sidebar">
+								<div class="section-title sidebar-title">
+									<h5>Contacter l'agence</h5>
+								</div>
+								<div class="top-agent">
+									<div class="ta-item">
+										<div class="ta-pic set-bg" data-setbg="{{asset('img/property/details/sidebar/ta-1.jpg')}}"></div>
+										<div class="ta-text"></div>
+									</div>
+
+								</div>
+								{% include "pages/bien/_contact_form.html.twig" %}
+							</div>
+							<div class="single-sidebar slider-op">
+								<div class="section-title sidebar-title">
+									<h5>Nos categories</h5>
+								</div>
+								<div class="sf-slider owl-carousel">
+									{% for cat in categories %}
+
+										<div class="sf-item set-bg" data-setbg="img/categories/cat-1.jpg">
+											<div class="sf-text">
+												{% set  nbreBien= 0 %}
+												{% for bien in cat.biens %}
+													{% set  nbreBien= nbreBien+1 %}
+
+												{% endfor %}
+												<h5>{{cat.designation}}</h5>
+												<span>{{nbreBien}}
+													biens</span>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Property Details Section End -->
+
+		<!-- Contact Section Begin -->
+		<section class="contact-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="contact-info">
+							<div class="ci-item">
+								<div class="ci-icon">
+									<i class="fa fa-map-marker"></i>
+								</div>
+								<div class="ci-text">
+									<h5>Address</h5>
+									<p>160 Pennsylvania Ave NW, Washington, Castle, PA 16101-5161</p>
+								</div>
+							</div>
+							<div class="ci-item">
+								<div class="ci-icon">
+									<i class="fa fa-mobile"></i>
+								</div>
+								<div class="ci-text">
+									<h5>Phone</h5>
+									<ul>
+										<li>125-711-811</li>
+										<li>125-668-886</li>
+									</ul>
+								</div>
+							</div>
+							<div class="ci-item">
+								<div class="ci-icon">
+									<i class="fa fa-headphones"></i>
+								</div>
+								<div class="ci-text">
+									<h5>Support</h5>
+									<p>Support.aler@gmail.com</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cs-map">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d735515.5813275519!2d-80.41163541934742!3d43.93644386501528!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882a55bbf3de23d7%3A0x3ada5af229b47375!2sMono%2C%20ON%2C%20Canada!5e0!3m2!1sen!2sbd!4v1583262687289!5m2!1sen!2sbd" height="450" style="border:0;" allowfullscreen=""></iframe>
+			</div>
+		</section>
+		<!-- Contact Section End -->
+	</body>
+</html>{% endblock %}
