@@ -12,53 +12,53 @@
 			{% for bien in biens %}
 				<div class="col-lg-4 col-md-6">
 					<div class="property-item">
-						<div class="pi-pic set-bg" data-setbg="{{asset('img/property/property-1.jpg')}}">
-							{% if bien.statusBien==1 %}
-								<div class="label c-red">En vente</div>
-							{% else %}
-								<div class="label">
-									En Location
-								</div>
-
-							{% endif %}
-						</div>
-						<div class="pi-text">
-							<a href="#" class="heart-icon">
-								<span class="icon_heart_alt"></span>
-							</a>
-							<div class="pt-price">{{bien.prix}}£<span>
-									{% if bien.statusBien==0 %}/mois
-									{% endif %}
-								</span>
+						<div class="pi-pic set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 100%; height: 200px;">
+						{% endif %}
+						{% if bien.statusBien==1 %}
+							<div class="label c-red">En vente</div>
+						{% else %}
+							<div class="label">
+								En Location
 							</div>
-							<h5>
-								<a href="{{path('bien_show',{id:bien.id})}}">{{bien.titre}}</a>
-							</h5>
-							<p>
-								<span class="icon_pin_alt"></span>
-								{{bien.ville}}({{bien.codePostal}})</p>
-							<ul>
-								<li>
-									<i class="fa fa-object-group"></i>
-									{{bien.surface}}
-									m2</li>
-							</ul>
-							<div class="pi-agent">
-								<div class="pa-item">
-									<div class="pa-info">
-										<img src="{{asset('img/property/posted-by/pb-1.jpg')}}" alt="">
-										<h6>Ashton Kutcher</h6>
-									</div>
-									<div class="pa-text">
-										123-455-688
-									</div>
+
+						{% endif %}
+					</div>
+					<div class="pi-text">
+						<a href="#" class="heart-icon">
+							<span class="icon_heart_alt"></span>
+						</a>
+						<div class="pt-price">{{bien.prix}}£<span>
+								{% if bien.statusBien==0 %}/mois
+								{% endif %}
+							</span>
+						</div>
+						<h5>
+							<a href="{{path('bien_show',{id:bien.id})}}">{{bien.titre}}</a>
+						</h5>
+						<p>
+							<span class="icon_pin_alt"></span>
+							{{bien.ville}}({{bien.codePostal}})</p>
+						<ul>
+							<li>
+								<i class="fa fa-object-group"></i>
+								{{bien.surface}}
+								m2</li>
+						</ul>
+						<div class="pi-agent">
+							<div class="pa-item">
+								<div class="pa-info">
+									<img src="{{asset('img/property/posted-by/pb-1.jpg')}}" alt="">
+									<h6>Ashton Kutcher</h6>
+								</div>
+								<div class="pa-text">
+									123-455-688
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			{% endfor %}
-		</section>
-		<!-- Property Section End -->
-	</body>
-</section>
+			</div>
+		{% endfor %}
+	</section>
+	<!-- Property Section End -->
+</body></section>

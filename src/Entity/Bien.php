@@ -2,11 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\BienRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\BienRepository;
+
+
+
 
 /**
  * @ORM\Entity(repositoryClass=BienRepository::class)
+ * @Vich\Uploadable
  */
 class Bien
 {
@@ -62,6 +70,26 @@ class Bien
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255,nullable="true")
+     */
+    private $image;
+
+    /**
+     * @var File|null
+     * @Assert\Image( 
+     *     maxSize="400k",
+     *     mimeTypes={"image/png", "image/jpeg", "image/jpg"},
+     *     mimeTypesMessage="Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 400Ko."
+     * )
+     * @Vich\UploadableField(mapping="biens_image", fileNameProperty="image")
+     */
+    private $imageFile = null;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateModification;
 
     /**
      * @ORM\Column(type="boolean",options={"default":false})
@@ -170,6 +198,55 @@ class Bien
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+    /**
+     * ce setter permet de spécifier la date d'upload de l'image sans cela 
+     * l'image ne vas pas être stocker dans le dossier public/image/sous_services
+     *
+     * @param [type] $imageFile
+     * @return void
+     */
+    public  function  setImageFile($imageFile)
+    {
+
+        $this->imageFile = $imageFile;
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($this->imageFile instanceof UploadedFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->dateModification = new \DateTime('now');
+        }
+
+        return $this;
+    }
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function getDateModification(): ?\DateTimeInterface
+    {
+        return $this->dateModification;
+    }
+
+    public function setDateModification(\DateTimeInterface $dateModification): self
+    {
+        $this->dateModification = $dateModification;
 
         return $this;
     }
