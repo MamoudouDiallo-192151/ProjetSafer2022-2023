@@ -10,23 +10,21 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=CategorieRepository::class)
  */
+#[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $designation;
 
     /**
      * @ORM\OneToMany(targetEntity=Bien::class, mappedBy="categorie")
      */
+    #[ORM\OneToMany(targetEntity: Bien::class, mappedBy: 'categorie')]
     private $biens;
 
     public function __construct()

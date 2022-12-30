@@ -16,47 +16,35 @@ use App\Repository\BienRepository;
  * @ORM\Entity(repositoryClass=BienRepository::class)
  * @Vich\Uploadable
  */
+#[ORM\Entity(repositoryClass: BienRepository::class)]
+#[Vich\Uploadable]
 class Bien
 {
     const STATUSBIEN = [
         0 => "En Location",
         1 => "En Vente"
     ];
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $titre;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $ville;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $codePostal;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $surface;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column(type: 'float')]
     private $prix;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $statusBien;
 
     //Cette colonne permet de supprimer tous les biens affectés  à une categorie qui vas être supprimer
@@ -64,16 +52,14 @@ class Bien
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="biens")
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
+    #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'biens')]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
     private $categorie;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255,nullable="true")
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
 
     /**
@@ -85,16 +71,21 @@ class Bien
      * )
      * @Vich\UploadableField(mapping="biens_image", fileNameProperty="image")
      */
+    #[Assert\Image(
+        maxSize: "400k",
+        mimeTypes: ["image/png", "image/jpeg", "image/jpg"],
+        mimeTypesMessage: "Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 400Ko."
+    )]
+    #[Vich\UploadableField(mapping: 'biens_image', fileNameProperty: 'image')]
     private $imageFile = null;
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $dateModification;
 
-    /**
-     * @ORM\Column(type="boolean",options={"default":false})
-     */
+    #[ORM\Column(type: 'boolean', options: [false])]
     private $isFavoris;
+
+    #[ORM\Column(length: 255)]
+    private ?string $reference = null;
 
     public function getId(): ?int
     {
@@ -259,6 +250,18 @@ class Bien
     public function setIsFavoris(bool $isFavoris): self
     {
         $this->isFavoris = $isFavoris;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
 
         return $this;
     }
