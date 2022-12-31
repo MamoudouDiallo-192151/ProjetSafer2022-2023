@@ -61,12 +61,24 @@
 								<i class="icon_mail_alt"></i>
 								safer.support@gmail.com</li>
 							<li>
-								<i class="fa fa-mobile-phone"></i>
-								753-181-404
-								<span>125-668-886</span>
+								{% if app.user %}
+									<i class="fa fa-mobile-phone"></i>
+
+									{{app.user.numeroTelephone}}
+									<span>{{app.user.prenom}}
+										{{app.user.nom}}</span>
+								{% endif %}
 							</li>
 						</ul>
-						<a href="#" class="hw-btn">Submit property</a>
+
+						{% if app.user%}
+
+							<a href="{{path('app_logout')}}" class="hw-btn">
+								<i class="fa fa-power-off m-r-5 m-l-5"></i>
+								Déconnexion</a>
+						{% else %}
+							<a href="{{path('app_login')}}" class="hw-btn">Connexion</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -82,13 +94,13 @@
 					<nav class="nav-menu">
 						<ul>
 							<li class="active">
-								<a href="./index.html">Accueil</a>
+								<a href="{{path('app_accueil')}}">Accueil</a>
 							</li>
 							<li>
 								<a href="#">Bien</a>
 								<ul class="dropdown">
 									<li>
-										<a href="./property.html">Property Grid</a>
+										<a href="{{path('bien_index')}}">Nos Biens</a>
 									</li>
 									<li>
 										<a href="./profile.html">Property List</a>

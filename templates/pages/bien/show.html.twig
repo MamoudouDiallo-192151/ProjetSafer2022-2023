@@ -150,8 +150,8 @@
 														<span class="type-value">{{bien.categorie.designation}}</span>
 													</li>
 													<li>
-														<span class="type-name">ID bien</span>
-														<span class="type-value">{{bien.id}}</span>
+														<span class="type-name">Référence</span>
+														<span class="type-value">{{bien.reference}}</span>
 													</li>
 													<li>
 														<span class="type-name">Prix</span>
@@ -190,7 +190,8 @@
 							<div class="pd-widget">
 								<h4>
 									PLANS D'ÉTAGE</h4>
-								<img src="{{asset('img/property/details/floor-plan.jpg')}}" alt="">
+
+								<img src="{% if bien.image %}{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 150%; height: 400px;" {% endif %}>
 							</div>
 							<div class="pd-widget">
 								<h4>

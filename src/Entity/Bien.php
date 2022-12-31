@@ -21,7 +21,7 @@ use App\Repository\BienRepository;
 class Bien
 {
     const STATUSBIEN = [
-        0 => "En Location",
+        0 => " En Location",
         1 => "En Vente"
     ];
     #[ORM\Id]

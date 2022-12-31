@@ -66,7 +66,7 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $contact->getId(), $request->request->get('_token'))) {

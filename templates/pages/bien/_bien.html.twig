@@ -12,7 +12,7 @@
 			{% for bien in biens %}
 				<div class="col-lg-4 col-md-6">
 					<div class="property-item">
-						<div class="pi-pic set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 100%; height: 200px;">
+						<div class="pi-pic set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 90%; height: 200px;">
 						{% endif %}
 						{% if bien.statusBien==1 %}
 							<div class="label c-red">En vente</div>

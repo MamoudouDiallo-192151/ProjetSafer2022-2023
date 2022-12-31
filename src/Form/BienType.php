@@ -16,6 +16,7 @@ class BienType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('reference')
             ->add('titre')
             ->add('ville')
             ->add('codePostal')

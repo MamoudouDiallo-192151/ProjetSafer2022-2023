@@ -14,6 +14,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 
 
+
 /**
  * @extends ServiceEntityRepository<Bien>
  *
@@ -61,7 +62,6 @@ class BienRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
 
 
     /**
