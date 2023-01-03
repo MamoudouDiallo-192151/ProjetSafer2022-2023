@@ -27,8 +27,8 @@ class BienType extends AbstractType
                 [
                     'attr' => [
                         'class' => 'form-control',
-                        'minlenght' => '6',
-                        'maxlenght' => '6',
+                        'minlenght' => '3',
+                        'maxlenght' => '15',
                     ],
                     'label' => 'Référence <span class="text-danger">*</span>',
                     'label_html' => true,
@@ -37,7 +37,7 @@ class BienType extends AbstractType
                     ],
                     'constraints' => [
                         new Assert\NotBlank(),
-                        new Assert\Length(['min' => 6, 'max' => 6])
+                        new Assert\Length(['min' => 3, 'max' => 15])
                     ]
                 ]
 
@@ -51,7 +51,7 @@ class BienType extends AbstractType
                         'minlenght' => '3',
                         'maxlenght' => '100',
                     ],
-                    'label' => 'Référence <span class="text-danger">*</span>',
+                    'label' => 'Titre <span class="text-danger">*</span>',
                     'label_html' => true,
                     'label_attr' => [
                         'class' => 'form-label'
@@ -64,7 +64,7 @@ class BienType extends AbstractType
 
             )
             ->add(
-                'ville',
+                'localisation',
                 TextType::class,
                 [
                     'attr' => [
@@ -72,7 +72,7 @@ class BienType extends AbstractType
                         'minlenght' => '3',
                         'maxlenght' => '100',
                     ],
-                    'label' => 'Référence <span class="text-danger">*</span>',
+                    'label' => 'Localisation <span class="text-danger">*</span>',
                     'label_html' => true,
                     'label_attr' => [
                         'class' => 'form-label'
@@ -84,13 +84,6 @@ class BienType extends AbstractType
                 ]
 
             )
-            ->add('codePostal', IntegerType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'minlength' => '500',
-                    'maxlength' => '100000',
-                ],
-            ])
             ->add(
                 'description',
                 TextareaType::class,
@@ -110,7 +103,7 @@ class BienType extends AbstractType
                     ]
                 ]
             )
-            ->add('surface', IntegerType::class, [
+            ->add('surface', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => '500',

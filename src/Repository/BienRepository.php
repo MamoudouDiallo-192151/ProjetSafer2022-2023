@@ -94,7 +94,7 @@ class BienRepository extends ServiceEntityRepository
         $biens = $this->paginator->paginate(
             $query->getQuery(), //// Requête contenant les données à paginer (ici nos properties)
             $page, //// Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            3
+            12
         );
         //  $pictures = $this->findForProperties($properties->getItems());
         return $biens;

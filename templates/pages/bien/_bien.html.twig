@@ -15,10 +15,10 @@
 						<div class="pi-pic set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 90%; height: 200px;">
 						{% endif %}
 						{% if bien.statusBien==1 %}
-							<div class="label c-red">En vente</div>
+							<div class="label c-red">Vente</div>
 						{% else %}
 							<div class="label">
-								En Location
+								Location
 							</div>
 
 						{% endif %}
@@ -37,12 +37,12 @@
 						</h5>
 						<p>
 							<span class="icon_pin_alt"></span>
-							{{bien.ville}}({{bien.codePostal}})</p>
+							{{bien.localisation}}</p>
 						<ul>
 							<li>
 								<i class="fa fa-object-group"></i>
 								{{bien.surface}}
-								m2</li>
+							</li>
 						</ul>
 						<div class="pi-agent">
 							<div class="pa-item">

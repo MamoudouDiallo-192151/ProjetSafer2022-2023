@@ -33,10 +33,8 @@ class Bien
     private $titre;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $ville;
+    private $localisation;
 
-    #[ORM\Column(type: 'integer')]
-    private $codePostal;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $surface;
@@ -65,16 +63,16 @@ class Bien
     /**
      * @var File|null
      * @Assert\Image( 
-     *     maxSize="400k",
+     *     maxSize="1500k",
      *     mimeTypes={"image/png", "image/jpeg", "image/jpg"},
-     *     mimeTypesMessage="Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 400Ko."
+     *     mimeTypesMessage="Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 1500Ko."
      * )
      * @Vich\UploadableField(mapping="biens_image", fileNameProperty="image")
      */
     #[Assert\Image(
-        maxSize: "400k",
+        maxSize: "1500k",
         mimeTypes: ["image/png", "image/jpeg", "image/jpg"],
-        mimeTypesMessage: "Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 400Ko."
+        mimeTypesMessage: "Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 1500Ko."
     )]
     #[Vich\UploadableField(mapping: 'biens_image', fileNameProperty: 'image')]
     private $imageFile = null;
@@ -104,36 +102,26 @@ class Bien
         return $this;
     }
 
-    public function getVille(): ?string
+    public function getLocalisation(): ?string
     {
-        return $this->ville;
+        return $this->localisation;
     }
 
-    public function setVille(string $ville): self
+    public function setLocalisation(string $localisation): self
     {
-        $this->ville = $ville;
+        $this->localisation = $localisation;
 
         return $this;
     }
 
-    public function getCodePostal(): ?int
-    {
-        return $this->codePostal;
-    }
 
-    public function setCodePostal(int $codePostal): self
-    {
-        $this->codePostal = $codePostal;
 
-        return $this;
-    }
-
-    public function getSurface(): ?float
+    public function getSurface(): ?string
     {
         return $this->surface;
     }
 
-    public function setSurface(float $surface): self
+    public function setSurface(string $surface): self
     {
         $this->surface = $surface;
 
