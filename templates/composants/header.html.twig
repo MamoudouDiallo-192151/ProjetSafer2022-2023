@@ -97,16 +97,18 @@
 								<a href="{{path('app_accueil')}}">Accueil</a>
 							</li>
 							<li>
-								<a href="#">Bien</a>
+								<a href="#">Services</a>
 								<ul class="dropdown">
 									<li>
 										<a href="{{path('bien_index')}}">Nos Biens</a>
 									</li>
 									<li>
-										<a href="./profile.html">Property List</a>
+										<a href="./profile.html">Mes favoris</a>
 									</li>
 									<li>
-										<a href="./property-details.html">Property Detail</a>
+										{% if app.user%}
+											<a href="{{path('porteur_edit_profile',{id:app.user.id})}}" class="dropdown-item">Profile</a>
+										{% endif %}
 									</li>
 									<li>
 										<a href="./property-comparison.html">Property Comperison</a>

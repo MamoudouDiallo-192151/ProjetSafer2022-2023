@@ -1,4 +1,13 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="container-xxl mb-10 ">
+	<div class="row justify-content-center align-items-center">
+		<div class="col-lg-8 col-xlg-9 col-md-7">
+			<div class="card shadow-2-strong" style="border-radius: 15px; ">
+				<div class="card-body p-4 p-md-5">{{ form_start(form) }}
+					{{ form_widget(form) }}
+					<button class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

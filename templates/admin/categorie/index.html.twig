@@ -1,35 +1,100 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Categorie index{% endblock %}
+{% extends 'admin/base.html.twig' %}
+{% block title %}
+	Gestion des categories
+{% endblock %}
 
 {% block body %}
-    <h1>Categorie index</h1>
+	<body>
+		<div
+			id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+			<!-- ============================================================== -->
+			<div class="page-wrapper">
+				<!-- ============================================================== -->
+				<!-- Bread crumb and right sidebar toggle -->
+				<!-- ============================================================== -->
+					<div class="page-breadcrumb"> <div class="row align-items-center">
+						<div class="col-5">
+							<h4 class="page-title">
+								Gestion des categories</h4>
+							<div class="d-flex align-items-center">
+								<nav aria-label="breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="#">Accueil</a>
+										</li>
+										<li class="breadcrumb-item active" aria-current="page">Categorie</li>
+									</ol>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container mt-4">
+					{% for message in app.flashes('success') %}
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							{{message}}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="container-xl">
+					<div class="table-responsive">
+						<div class="table-wrapper">
+							<div class="table-title">
+								<div class="row">
+									<div class="col-sm-6">
+										<h2>Gestion des
+											<b>Categories</b>
+										</h2>
+									</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Designation</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for categorie in categories %}
-            <tr>
-                <td>{{ categorie.id }}</td>
-                <td>{{ categorie.designation }}</td>
-                <td>
-                    <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}">show</a>
-                    <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_categorie_new') }}">Create new</a>
+									<div class="col-sm-6">
+										<a href="{{path('admin_categorie_new') }}" class="btn btn-primary">
+											<i class="material-icons">&#xE147;</i>
+											<span>Ajouter une categorie</span>
+										</a>
+									</div>
+								</div>
+							</div>
+							<table class="table table-striped table-hover">
+								<thead>
+									<tr>
+										<th>
+											<span class="custom-checkbox">
+												<input type="checkbox" id="selectAll">
+												<label for="selectAll"></label>
+											</span>
+										</th>
+										<th>Désignation</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									{%  for categorie in categories  %}
+										<tr>
+											<td>
+												<span class="custom-checkbox">
+													<input type="checkbox" id="checkbox1" name="options[]" value="1">
+													<label for="checkbox1"></label>
+												</span>
+											</td>
+											<td>{{categorie.designation}}</td>
+											<td>
+												<a href="{{path('admin_categorie_edit',{id:categorie.id})}}" title="Modifier" class="edit">
+													<i class="material-icons" data-toggle="tooltip" title="Modifier">&#xE254;</i>
+												</a>
+												<a href="{{path('admin_categorie_delete',{id:categorie.id})}}" title="Supprimer" class="delete" onclick="return confirm('Êtes vous vraiment sûr de supprimer cette categorie ?')">
+													<i class="material-icons text-danger" title="Supprimer">&#xE872;</i>
+												</a>
+											</td>
+										</tr>
+									</td>
+								</tbody>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
 {% endblock %}

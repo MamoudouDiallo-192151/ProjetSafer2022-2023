@@ -1,12 +1,39 @@
-{% block title %}Edit Bien
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Editer bien
 {% endblock %}
 
 {% block body %}
-	<h1>Edit Bien</h1>
-
-	{{ include('admin/bien/_form.html.twig', {'button_label': 'Update'}) }}
-
-	<a href="{{ path('app_bien_index') }}">back to list</a>
-
-	{{ include('admin/bien/_delete_form.html.twig') }}
+	<body>
+		<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+			<div class="page-wrapper">
+				<div class="page-breadcrumb">
+					<div class="row align-items-center">
+						<div class="col-5">
+							<h4 class="page-title">Tableau de board</h4>
+							<div class="d-flex align-items-center">
+								<nav aria-label="breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="#">Accueil</a>
+										</li>
+										<li class="breadcrumb-item">
+											<a href="#">Bien</a>
+										</li>
+									</li>
+									<li class="breadcrumb-item active" aria-current="page">Editer</li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+					<div class="col-7">
+						<div class="text-right upgrade-btn">
+							<a href="{{path('admin_bien_index')}}" class="btn btn-primary text-white">Liste  des biens</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			{{ include('admin/bien/_form.html.twig', {'button_label': 'Modifier'}) }}
+		</div>
+	</body>
 {% endblock %}

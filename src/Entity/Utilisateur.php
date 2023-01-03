@@ -7,15 +7,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
+
+/**
+ * InheritanceType, DiscriminatorColumn et DiscriminatorMap doivent être spécifiés sur la classe la plus élevée faisant partie de la hiérarchie des entités mappées.
+ *Le DiscriminatorMap spécifie quelles valeurs de la colonne de discriminateur identifient une ligne comme étant de quel type.
+ * Dans le cas ci-dessous, une valeur de "proteur" identifie une ligne comme étant de type Porteur etc.
+ */
 #[InheritanceType("JOINED")]
 #[DiscriminatorColumn(name: "TypeUtilisateur", type: "string")]
 #[DiscriminatorMap(["utilisateur" => Utilisateur::class, "porteur" => Porteur::class, "admin" => Administrateur::class])]
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[Vich\Uploadable]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -46,6 +57,51 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $image;
+    #[ORM\Column(type: 'datetime')]
+    private $dateModification;
+
+    /**
+     * @var File|null
+     */
+    #[Assert\Image(
+        maxSize: "400k",
+        mimeTypes: ["image/png", "image/jpeg", "image/jpg"],
+        mimeTypesMessage: "Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 400Ko."
+    )]
+    #[Vich\UploadableField(mapping: 'user_profil_image', fileNameProperty: 'image')]
+    private $imageFile = null;
+
+
+
+    /**
+     * ces deux fonctions  serialize et unserialize permettent de serialiser seulement id, email et password sans cela l'uplaode 
+     * de la photo de profil ne marche pas puisqu'on peut pas  serialiser une entité qui a un attribut de type File.
+     * Exeception généré: Serialization of 'Symfony\Component\HttpFoundation\File\UploadedFile' is not allowed
+
+     *
+     * @return array
+     */
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'password' => $this->password
+            //......
+        ];
+    }
+
+    public function __unserialize(array $serialized)
+    {
+        $this->id = $serialized['id'];
+        $this->email = $serialized['email'];
+        $this->password = $serialized['password'];
+        // .....
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -180,6 +236,55 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+    /**
+     * ce setter permet de spécifier la date d'upload de l'image sans cela 
+     * l'image ne vas pas être stocker dans le dossier public/image_safer/user_profil
+     *
+     * @param [type] $imageFile
+     * @return void
+     */
+    public  function  setImageFile($imageFile)
+    {
+
+        $this->imageFile = $imageFile;
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($this->imageFile instanceof UploadedFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->dateModification = new \DateTime('now');
+        }
+
+        return $this;
+    }
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function getDateModification(): ?\DateTimeInterface
+    {
+        return $this->dateModification;
+    }
+
+    public function setDateModification(\DateTimeInterface $dateModification): self
+    {
+        $this->dateModification = $dateModification;
 
         return $this;
     }

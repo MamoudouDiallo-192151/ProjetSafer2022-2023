@@ -1,14 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Edit Categorie
+{% block title %}Edit Service
 {% endblock %}
 
 {% block body %}
-	<h1>Edit Categorie</h1>
-
-	{{ include('admin/categorie/_form.html.twig', {'button_label': 'Update'}) }}
-
-	<a href="{{ path('app_categorie_index') }}">back to list</a>
-
-	{{ include('admin/categorie/_delete_form.html.twig') }}
+	<body>
+		<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+			<div class="page-wrapper">
+				<div class="page-breadcrumb">
+					<div class="row align-items-center">
+						<div class="col-5">
+							<h4 class="page-title">Tableau de board</h4>
+							<div class="d-flex align-items-center">
+								<nav aria-label="breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="#">Accueil</a>
+										</li>
+										<li class="breadcrumb-item">
+											<a href="#">Categorie</a>
+										</li>
+										<li class="breadcrumb-item active" aria-current="page">Editer</li>
+									</ol>
+								</nav>
+							</div>
+						</div>
+						<div class="col-7">
+							<div class="text-right upgrade-btn">
+								<a href="" class="btn btn-primary text-white">Ajouter une catgorie</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{ include('admin/categorie/_form.html.twig', {'button_label': 'Modifier'}) }}
+			</div>
+		</div>
+	</body>
 {% endblock %}

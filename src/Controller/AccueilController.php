@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Repository\BienRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Repository\CategorieRepository;
-
 
 class AccueilController extends AbstractController
 {
@@ -21,6 +21,18 @@ class AccueilController extends AbstractController
         return $this->render('pages/accueil.html.twig', [
             'biens' => $biens,
             'categories' => $categories,
+
+        ]);
+    }
+    /**
+     * Cette methode permet de voir les détails d'une categorie c'est à tous les biens de cette categorie
+     */
+    #[Route('/categorie/detail/{id}', name: 'categorie_show')]
+    public function show(Categorie $categorie): Response
+    {
+
+        return $this->render('pages/categorie/show.html.twig', [
+            'categorie' => $categorie,
 
         ]);
     }

@@ -1,12 +1,36 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}New Categorie
+{% block title %}ajouter une categorie
 {% endblock %}
 
 {% block body %}
-	<h1>Create new Categorie</h1>
-
-	{{ include('admin/categorie/_form.html.twig') }}
-
-	<a href="{{ path('app_categorie_index') }}">back to list</a>
+	<body>
+		<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+			<div class="page-wrapper">
+				<div class="page-breadcrumb">
+					<div class="row align-items-center">
+						<div class="col-5">
+							<h4 class="page-title">Tableau de board</h4>
+							<div class="d-flex align-items-center">
+								<nav aria-label="breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="#">Categorie</a>
+										</li>
+										<li class="breadcrumb-item active" aria-current="page">Ajouter</li>
+									</ol>
+								</nav>
+							</div>
+						</div>
+						<div class="col-7">
+							<div class="text-right upgrade-btn">
+								<a href="{{path('admin _categorie_index')}}" class="btn btn-primary text-white">Liste  des categories</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{ include('admin/categorie/_form.html.twig') }}
+			</div>
+		</div>
+	</body>
 {% endblock %}

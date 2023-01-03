@@ -1,0 +1,20 @@
+<div class="card  mt-2" style="width: 19rem;">
+	{% if bien.image %}
+		<img
+		src=" {{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }} " alt=" imgcache" style=" width: 100%; height: 200px;">
+	<!--  |imagine_filter('medium')-->
+	{% endif %}
+	<div class="card-body">
+		<h5 class="card-title">{{ bien.titre }}</h5>
+		<p class="card-text">{{ bien.description}}</p>
+		<a href="{{ path('admin_bien_edit', {'id': bien.id}) }}" class="btn btn-primary">Modifier</a>
+		<form method="POST" action="{{path('admin_bien_delete',{ id:bien.id})}}" style="display: inline-block" onsubmit="return confirm('Êtes vous vraiment sûr de supprimer ?')">
+			<input type="hidden" name="method" value="DELETE">
+			<input type="hidden" name="_token" value="{{csrf_token('delete' ~ bien.id)}}">
+			<button class="btn btn-danger">Supprimer</button>
+		</form>
+	</div>
+	<div class="card-footer bg-white">
+		<a href="{{ path('admin_bien_show', {'id': bien.id}) }}">Voir détails</a>
+	</div>
+</div>
