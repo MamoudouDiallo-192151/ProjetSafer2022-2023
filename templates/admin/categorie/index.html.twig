@@ -81,11 +81,13 @@
 											<td>{{categorie.designation}}</td>
 											<td>
 												<a href="{{path('admin_categorie_edit',{id:categorie.id})}}" title="Modifier" class="edit">
-													<i class="material-icons" data-toggle="tooltip" title="Modifier">&#xE254;</i>
+													<i class="material-icons" data-toggle="tooltip" title="Modifier">Modifier</i>
 												</a>
-												<a href="{{path('admin_categorie_delete',{id:categorie.id})}}" title="Supprimer" class="delete" onclick="return confirm('Êtes vous vraiment sûr de supprimer cette categorie ?')">
-													<i class="material-icons text-danger" title="Supprimer">&#xE872;</i>
-												</a>
+												<form method="POST" action="{{path('admin_categorie_delete',{id:categorie.id})}}" style="display: inline-block" onsubmit="return confirm('Êtes vous vraiment sûr de supprimer ?')">
+													<input type="hidden" name="method" value="DELETE">
+													<input type="hidden" name="_token" value="{{csrf_token('delete' ~ categorie.id)}}">
+													<button class="btn btn-danger">Supprimer</button>
+												</form>
 											</td>
 										</tr>
 									</td>

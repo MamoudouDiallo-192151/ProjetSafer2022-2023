@@ -28,11 +28,14 @@ class AccueilController extends AbstractController
      * Cette methode permet de voir les détails d'une categorie c'est à tous les biens de cette categorie
      */
     #[Route('/categorie/detail/{id}', name: 'categorie_show')]
-    public function show(Categorie $categorie): Response
+    public function show(Categorie $categorie, CategorieRepository $rep): Response
     {
+        $categories = $rep->findAll();
 
         return $this->render('pages/categorie/show.html.twig', [
             'categorie' => $categorie,
+            'categories' => $categories,
+
 
         ]);
     }

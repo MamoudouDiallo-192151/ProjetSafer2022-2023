@@ -24,7 +24,7 @@
 							<div class="card">
 								<div class="card-body">
 									<center class="m-t-30">
-										{% if app.user.imageFile %}
+										{% if app.user.image %}
 											<img src=" {{ vich_uploader_asset(app.user,'imageFile') | imagine_filter('profil_thumb') }} " class="rounded-circle" width="200" alt=" Photo de Profil " style=" height: 200px;">
 										{% else %}
 											Aucune photo de profil

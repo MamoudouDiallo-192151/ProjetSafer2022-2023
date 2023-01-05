@@ -22,7 +22,7 @@
 								{% endif %}
 							</a>
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="Userdd">
-								<a class="dropdown-item" href="javascript:void(0)">
+								<a class="dropdown-item" href="{% if app.user %} {{path('admin_edit_profile',{id:app.user.id})}} {% endif %}">
 									<i class="ti-user m-r-5 m-l-5"></i>
 									Mon Profile</a>
 								<a class="dropdown-item" href="javascript:void(0)">
@@ -52,7 +52,7 @@
 					</a>
 				</li>
 				<li class="sidebar-item">
-					<a class="sidebar-link waves-effect waves-dark sidebar-link" href="pages-profile.html" aria-expanded="false">
+					<a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% if app.user %} {{path('admin_edit_profile',{id:app.user.id})}} {% endif %} " aria-expanded="false">
 						<i class="mdi mdi-account-network"></i>
 						<span class="hide-menu">Profile</span>
 					</a>
@@ -64,7 +64,7 @@
 					</a>
 				</li>
 				<li class="sidebar-item">
-					<a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('admin _categorie_index')}}" aria-expanded="false">
+					<a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('admin_categorie_index')}}" aria-expanded="false">
 						<i class="mdi mdi-face"></i>
 						<span class="hide-menu">Gestion des categories</span>
 					</a>

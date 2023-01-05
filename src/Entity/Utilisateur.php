@@ -25,16 +25,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[DiscriminatorColumn(name: "TypeUtilisateur", type: "string")]
 #[DiscriminatorMap(["utilisateur" => Utilisateur::class, "porteur" => Porteur::class, "admin" => Administrateur::class])]
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[Vich\Uploadable]
+/**
+ * @Vich\Uploadable
+ */
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const ROLE_ADMIN = "ROLE_ADMIN";
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -52,26 +57,26 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $numeroTelephone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $image;
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $dateModification;
 
     /**
      * @var File|null
+     * @Assert\Image( 
+     *     maxSize="1500k",
+     *     mimeTypes={"image/png", "image/jpeg", "image/jpg"},
+     *     mimeTypesMessage="Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 1500Ko."
+     * )
+     * @Vich\UploadableField(mapping="user_profil_image", fileNameProperty="image")
      */
-    #[Assert\Image(
-        maxSize: "400k",
-        mimeTypes: ["image/png", "image/jpeg", "image/jpg"],
-        mimeTypesMessage: "Formats autorisés : .png, .jpeg, .jpg - Poids autorisé : < 400Ko."
-    )]
-    #[Vich\UploadableField(mapping: 'user_profil_image', fileNameProperty: 'image')]
     private $imageFile = null;
 
 
@@ -287,5 +292,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->dateModification = $dateModification;
 
         return $this;
+    }
+
+
+    /**
+     * Méthodes supplementaire
+     */
+    /**
+     * @see UserInterface
+     *
+     * @return boolean
+     */
+    public function isAdmin(): bool
+    {
+        return in_array(self::ROLE_ADMIN, $this->getRoles());
     }
 }

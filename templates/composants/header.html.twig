@@ -119,6 +119,18 @@
 								</ul>
 							</li>
 							<li>
+								<a href="#">Categories</a>
+								<ul class="dropdown">
+									<li>
+										{% for categorie in categories %}
+											<a href="{{path('categorie_show',{id:categorie.id})}}">
+												{{categorie.designation}}
+											</a>
+										{% endfor %}
+									</li>
+								</ul>
+							</li>
+							<li>
 								<a href="./agents.html">Agents</a>
 							</li>
 							<li>

@@ -56,11 +56,12 @@ class UtilisateurProfileType extends AbstractType
             ->add(
                 'email',
                 EmailType::class,
-                ['disabled' => $options['is_edit'], 'attr' => [
-                    'class' => 'form-control',
-                ],],
                 [
-                    'label' => true,
+                    'disabled' => $options['is_edit'], 'attr' => [
+                        'class' => 'form-control',
+                    ],   'label' => false,
+                ],
+                [
                     'constraints' => [
                         new Assert\NotBlank(),
                         new Assert\Email(),

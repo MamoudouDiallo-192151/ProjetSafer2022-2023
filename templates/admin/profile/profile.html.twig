@@ -1,0 +1,104 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Profile
+{% endblock %}
+{% block body %}
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8">
+			<meta
+			http-equiv="X-UA-Compatible" content="IE=edge">
+			<!-- Tell the browser to be responsive to screen width -->
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta name="description" content="">
+			<meta name="author" content="">
+		</head>
+		<body>
+			<div
+				id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+				<!-- ============================================================== -->
+				<div class="page-wrapper">
+					<!-- ============================================================== -->
+					<!-- Bread crumb and right sidebar toggle -->
+					<!-- ============================================================== -->
+						<div class="page-breadcrumb"> <div class="row align-items-center">
+							<div class="col-5">
+								<h4 class="page-title">Editer Profile</h4>
+								<div class="d-flex align-items-center">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item">
+												<a href="#">Accueil</a>
+											</li>
+											<li class="breadcrumb-item active" aria-current="page">Profile</li>
+										</ol>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% if not form.vars.valid %}
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							Erreur au niveau du formulaire
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					{% endif %}
+					<div class="container-fluid">
+						<!-- ============================================================== -->
+						<!-- Start Page Content -->
+						<!-- ============================================================== -->
+						<!-- Row -->
+							{% if app.user%}
+								<div
+								class="row"> <!-- Column -->
+								<div class="col-lg-4 col-xlg-3 col-md-5">
+									<div class="card">
+										<div class="card-body">
+											<center class="m-t-30">
+												{% if app.user.image %}
+													<img src=" {{ vich_uploader_asset(user,'imageFile') | imagine_filter('profil_thumb') }} " class="rounded-circle" width="200" alt=" Photo de Profil" style=" height: 200px;">
+												{% else %}
+													Aucune photo de profile
+												{% endif %}
+												<h4 class="card-title m-t-10">{{app.user.nom}}</h4>
+												<h6 class="card-subtitle">{{app.user.prenom}}</h6>
+											</center>
+										</div>
+										<div>
+											<hr>
+										</div>
+										<div class="card-body">
+											<small class="text-muted">Adresse email
+											</small>
+											<h6>{{app.user.email}}</h6>
+											<small class="text-muted p-t-30 db">Telephone</small>
+											<h6>{{app.user.numeroTelephone}}</h6>
+											<small class="text-muted p-t-30 db">Addresse</small>
+											<h6>{{app.user.adresse}}</h6>
+											<small class="text-muted p-t-30 db">Profile social</small>
+											<br/>
+											<button class="btn btn-circle btn-secondary">
+												<i class="fab fa-facebook-f"></i>
+											</button>
+											<button class="btn btn-circle btn-secondary">
+												<i class="fab fa-twitter"></i>
+											</button>
+											<button class="btn btn-circle btn-secondary">
+												<i class="fab fa-youtube"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							{% endif %}
+							<!-- Column -->
+							<!-- Column -->
+							<div class="col-lg-8 col-xlg-9 col-md-7">
+								{{ include("admin/profile/_form.html.twig") }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
+{% endblock %}
