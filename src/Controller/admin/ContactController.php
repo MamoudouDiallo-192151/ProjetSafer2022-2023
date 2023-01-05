@@ -14,6 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('admin/contact')]
 class ContactController extends AbstractController
 {
+    /**
+     * Cette methode permet de Visualiser les demandes de contact
+     *
+     * @param ContactRepository $contactRepository
+     * @return Response
+     */
     #[Route('/index', name: 'app_contact_index', methods: ['GET'])]
     public function index(ContactRepository $contactRepository): Response
     {
@@ -21,7 +27,9 @@ class ContactController extends AbstractController
             'contacts' => $contactRepository->findAll(),
         ]);
     }
-
+    /**
+     * Cette methode permet de supprimer les demandes de contact
+     */
     #[Route('/{id}/delete', name: 'app_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {

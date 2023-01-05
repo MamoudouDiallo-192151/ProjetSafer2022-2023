@@ -16,6 +16,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
+    /**
+     * Cette methode permet d'incrire des admin de role admin 
+     *
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/inscrire', name: 'admin_register_form')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -44,6 +52,9 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     *      * Cette methode permet aux admin de modifier leurs roles
+     */
     #[Route('/profile_admin/{id}', name: 'admin_edit_profile', methods: ['GET', 'POST'])]
     public function editerProfile(Administrateur $user, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -67,6 +78,27 @@ class AdminController extends AbstractController
         return $this->render('admin/profile/profile.html.twig', [
             'form' => $form->createView(),
             'user' => $user
+        ]);
+    }
+    /**
+     * Cette méthode permet  à l'admin ayant le role superAdmin de modifier le role des users
+     */
+
+    #[Route('/editer_role_utilisateur/{id}', name: 'admin_edit_user_role', methods: ['GET', 'POST'])]
+    public function editUserRole(Request $request, Utilisateur $user, UtilisateurRepository $userRepository): Response
+    {
+        $form = $this->createForm(UtilisateurRoleType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->add($user);
+            $this->addFlash("success", "Le rôle de l'utilisateur à été modifié avec success");
+            return $this->redirectToRoute('admin_users', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin/user/edit_role.html.twig', [
+            'user' => $user,
+            'form' => $form,
         ]);
     }
 }

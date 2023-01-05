@@ -10,9 +10,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Ce controleur gere le crud des categories et est accessible uniquement par les users qui ont le role admin ou superAdmin
+ */
 #[Route('admin/categorie')]
 class CategorieController extends AbstractController
 {
+    /**
+     * Cette methodes sert à afficher tous les categories
+     *
+     * @param CategorieRepository $categorieRepository
+     * @return Response
+     */
     #[Route('/', name: 'admin_categorie_index', methods: ['GET'])]
     public function index(CategorieRepository $categorieRepository): Response
     {
@@ -20,7 +29,13 @@ class CategorieController extends AbstractController
             'categories' => $categorieRepository->findAll(),
         ]);
     }
-
+    /**
+     * Cette methode  permet de creer un categorie
+     *
+     * @param Request $request
+     * @param CategorieRepository $categorieRepository
+     * @return Response
+     */
     #[Route('/new', name: 'admin_categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CategorieRepository $categorieRepository): Response
     {
@@ -39,7 +54,9 @@ class CategorieController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    /**
+     * Cette methode permet de voir les détals d'une categorie
+     */
     #[Route('/{id}/show', name: 'admin_categorie_show', methods: ['GET'])]
     public function show(Categorie $categorie): Response
     {
@@ -47,7 +64,9 @@ class CategorieController extends AbstractController
             'categorie' => $categorie,
         ]);
     }
-
+    /**
+     * Cette methode permet à l'admin de modifier une categorie
+     */
     #[Route('/{id}/edit', name: 'admin_categorie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Categorie $categorie, CategorieRepository $categorieRepository): Response
     {
@@ -65,7 +84,9 @@ class CategorieController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    /**
+     * Cette methode permet à l'admin de supppimer une categorie
+     */
     #[Route('/{id}/delete', name: 'admin_categorie_delete', methods: ['POST'])]
     public function delete(Request $request, Categorie $categorie, CategorieRepository $categorieRepository): Response
     {

@@ -28,6 +28,14 @@ class BienController extends AbstractController
         $this->repository = $repository;
         $this->em = $em;
     }
+    /**
+     * Cette methode permet d'afficher tous les biens et permet de paginer les biens aussi 
+     * et une recherche de bien
+     *
+     * @param BienRepository $rep
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/', name: 'bien_index')]
     public function index(BienRepository $rep, Request $request): Response
     {
@@ -41,6 +49,7 @@ class BienController extends AbstractController
         ]);
     }
     /**
+     * Cette methode permet de voir les detail d'un bien et et notifier l'agence pour le bien rechercher
      * @param   $bien
      */
     #[Route('/detail/{id}', name: 'bien_show')]

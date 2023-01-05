@@ -8,7 +8,11 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class ContactNotification
 {
-
+    /**
+     * Cette methode permet de prendre contact avec l'agence
+     *
+     * @param MailerInterface $mailer
+     */
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
@@ -28,7 +32,12 @@ class ContactNotification
             ]);
         $this->mailer->send($message);
     }
-
+    /**
+     * Cette methode permet de prendre contact avec l'agence pour un bien rechercher en notifier l'agence par email
+     *
+     * @param Contact $contact
+     * @return void
+     */
     public function notifyContactBien(Contact $contact)
     {
         $message  = (new TemplatedEmail())

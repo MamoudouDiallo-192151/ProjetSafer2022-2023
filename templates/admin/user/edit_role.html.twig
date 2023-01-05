@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+<head>
+	<title>
+		{% block title %}Modifier rôle
+		{% endblock %}
+	</title>
+</head>
+{% block body %}
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8">
+			<meta
+			http-equiv="X-UA-Compatible" content="IE=edge">
+			<!-- Tell the browser to be responsive to screen width -->
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta name="description" content="">
+			<meta name="author" content="">
+		</head>
+		<body>
+			<div
+				id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+				<!-- ============================================================== -->
+				<div class="page-wrapper">
+					<!-- ============================================================== -->
+					<!-- Bread crumb and right sidebar toggle -->
+					<!-- ============================================================== -->
+						<div class="page-breadcrumb"> <div class="row align-items-center">
+							<div class="col-5">
+								<h4 class="page-title">Modifier rôle</h4>
+								<div class="d-flex align-items-center">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item">
+												<a href="#">Accueil</a>
+											</li>
+											<li class="breadcrumb-item active" aria-current="page">Liste des Utilisateurs</li>
+											<li class="breadcrumb-item active" aria-current="page">Modifié rôle</li>
+										</ol>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% if not form.vars.valid %}
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							Erreur au niveau du formulaire
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					{% endif %}
+					<div class="container-fluid">
+						{{ form_start(form) }}
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</body>
+		</body>
+	</html>
+{% endblock %}

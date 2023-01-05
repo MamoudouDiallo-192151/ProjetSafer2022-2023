@@ -13,6 +13,13 @@ use App\Repository\CategorieRepository;
 
 class AccueilController extends AbstractController
 {
+    /**
+     * Cette function renvoye vers la  page d'accueil  et les 3 biens afficher aleatoirement
+     *
+     * @param BienRepository $bienRepository
+     * @param CategorieRepository $rep
+     * @return Response
+     */
     #[Route('/', name: 'app_accueil')]
     public function index(BienRepository $bienRepository, CategorieRepository $rep): Response
     {
@@ -25,7 +32,7 @@ class AccueilController extends AbstractController
         ]);
     }
     /**
-     * Cette methode permet de voir les détails d'une categorie c'est à tous les biens de cette categorie
+     * Cette methode permet de voir les détails d'une categorie c'està dire à tous les biens de cette categorie
      */
     #[Route('/categorie/detail/{id}', name: 'categorie_show')]
     public function show(Categorie $categorie, CategorieRepository $rep): Response
@@ -41,6 +48,7 @@ class AccueilController extends AbstractController
     }
 
     /**
+     * Cette methode ne marche pas pourr le momoment le but etait de remplir la bd avec le fichier excel
      * @param Request $request
      * @throws \Exception
      */

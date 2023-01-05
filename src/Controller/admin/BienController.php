@@ -10,9 +10,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Ce controleur gere le crud des biens et est accessible uniquement par les users qui ont le role admin ou superAdmin
+ */
 #[Route('admin/bien')]
 class BienController extends AbstractController
 {
+    /**
+     * Cette methodes sert à afficher tous les biens
+     *
+     * @param BienRepository $bienRepository
+     * @return Response
+     */
     #[Route('/', name: 'admin_bien_index', methods: ['GET'])]
     public function index(BienRepository $bienRepository): Response
     {
@@ -20,7 +29,13 @@ class BienController extends AbstractController
             'biens' => $bienRepository->findAll(),
         ]);
     }
-
+    /**
+     * Cette methode  permet de creer un bien
+     *
+     * @param Request $request
+     * @param BienRepository $bienRepository
+     * @return Response
+     */
     #[Route('/new', name: 'admin_bien_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BienRepository $bienRepository): Response
     {
@@ -40,7 +55,9 @@ class BienController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    /**
+     * Cette methode permet de voir les détals d'un bien
+     */
     #[Route('/{id}', name: 'admin_bien_show', methods: ['GET'])]
     public function show(Bien $bien): Response
     {
@@ -48,7 +65,9 @@ class BienController extends AbstractController
             'bien' => $bien,
         ]);
     }
-
+    /**
+     * Cette methode permet à l'admin de modifier un bien
+     */
     #[Route('/{id}/edit', name: 'admin_bien_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bien $bien, BienRepository $bienRepository): Response
     {
@@ -66,7 +85,9 @@ class BienController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    /**
+     * Cette methode permet à l'admin de supppimer un bien
+     */
     #[Route('/{id}/delete', name: 'admin_bien_delete', methods: ['POST'])]
     public function delete(Request $request, Bien $bien, BienRepository $bienRepository): Response
     {

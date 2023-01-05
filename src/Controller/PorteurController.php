@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PorteurController extends AbstractController
 {
     /**
-     * Cette function permet
+     * Cette function permet aux users de s'insrire
      *
      * @param Request $request
      * @param UserPasswordHasherInterface $userPasswordHasher
@@ -53,7 +53,7 @@ class PorteurController extends AbstractController
     }
 
     /**
-     * cette function permet au proteur de modifier son profile
+     * cette function permet au porteur de modifier son profile
      */
     #[Route('/editer_profile/{id}', name: 'porteur_edit_profile', methods: ['GET', 'POST'])]
     public function editerProfile(Porteur $user, Request $request, EntityManagerInterface $entityManager): Response

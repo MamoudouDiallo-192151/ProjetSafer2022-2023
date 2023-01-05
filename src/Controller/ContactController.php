@@ -15,14 +15,14 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/porteur')]
 class ContactController extends AbstractController
 {
-    #[Route('/contact/index', name: 'app_contact_index', methods: ['GET'])]
-    public function index(ContactRepository $contactRepository): Response
-    {
-        return $this->render('contact/index.html.twig', [
-            'contacts' => $contactRepository->findAll(),
-        ]);
-    }
-
+    /**
+     * Cettte methode permet aux users d'envoyer des demandes de contact à la safer
+     * @param Request $request
+     * @param ContactRepository $contactRepository
+     * @param ContactNotification $notification
+     * @param CategorieRepository $rep
+     * @return Response
+     */
     #[Route('/contacter', name: 'app_contact', methods: ['GET', 'POST'])]
     public function new(Request $request, ContactRepository $contactRepository, ContactNotification $notification, CategorieRepository $rep): Response
     {
@@ -43,31 +43,6 @@ class ContactController extends AbstractController
             'form' => $form->createView(),
             'categories' => $categories,
 
-        ]);
-    }
-
-    #[Route('/contact/{id}', name: 'app_contact_show', methods: ['GET'])]
-    public function show(Contact $contact): Response
-    {
-        return $this->render('contact/show.html.twig', [
-            'contact' => $contact,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Contact $contact, ContactRepository $contactRepository): Response
-    {
-        $form = $this->createForm(ContactType::class, $contact);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $contactRepository->add($contact);
-            return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('contact/edit.html.twig', [
-            'contact' => $contact,
-            'form' => $form->createView(),
         ]);
     }
 }

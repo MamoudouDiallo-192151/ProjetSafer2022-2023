@@ -1,0 +1,149 @@
+{% extends 'admin/dashboard/base.html.twig' %}
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8">
+			<meta
+			http-equiv="X-UA-Compatible" content="IE=edge">
+			<!-- Tell the browser to be responsive to screen width -->
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta name="description" content="">
+			<meta name="author" content="">
+		</head>
+		<body>
+			<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full" data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+				<div class="page-wrapper">
+					<div class="page-breadcrumb">
+						<div class="row align-items-center">
+							<div class="col-5">
+								<h4 class="page-title">Tableau de board</h4>
+								<div class="d-flex align-items-center">
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item">
+												<a href="#">Accueil</a>
+											</li>
+											<li class="breadcrumb-item active" aria-current="page">Liste des Utilisateurs</li>
+										</ol>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% for message in app.flashes('success') %}
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							{{message}}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					{% endfor %}
+					<div class="row">
+						<div class="col-12">
+							<div class="container-fluid px-4">
+								<div class="table-responsive">
+									<div class="table-wrapper">
+										<div class="table-title">
+											<div class="row">
+												<div class="col-sm-6">
+													<h2>Gestion des
+														<b>Utilisateurs</b>
+													</h2>
+												</div>
+												<div class="col-sm-6">
+													<div class="form-group mx-sm-3">
+														<a href="{{path('commercial_form_register')}}" class="btn btn-primary">
+															<i class="material-icons">&#xE147;</i>
+															<span>Ajouter un commercial</span>
+														</a>
+														<div class="text-right">
+															{{form_start(formSearch)}}
+															<div class="col-sm-7 text-right">{{form_row(formSearch.nomUtilisateur,{'attr': {'class': 'form-control','placeholder': "Nom de l'utilisateur"}})}}
+																<button class="btn btn-sm btn-success mt-2">
+																	<span class="text-white">Réchercher</span>
+																</button>
+															</div>
+															{{form_end(formSearch)}}
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</div>
+										<table class="table table-striped table-hover">
+											<thead>
+												<tr>
+													<th>
+														<span class="custom-checkbox">
+															<input type="checkbox" id="selectAll">
+															<label for="selectAll"></label>
+														</span>
+													</th>
+													<th>Rôle</th>
+													<th>Nom</th>
+													<th>Prénom</th>
+													<th>Email</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for user  in  users %}
+													<tr>
+														<td>
+															<span class="custom-checkbox">
+																<input type="checkbox" id="checkbox1" name="options[]" value="1">
+																<label for="checkbox1"></label>
+															</span>
+														</td>
+														<td>
+															{% for role in user.roles %}
+																{% if role == 'ROLE_ADMIN' %}
+																	<a class="btn btn-circle btn-info text-white">A</a>
+																{% elseif role =="ROLE_CLIENT" %}
+																	<a class="btn btn-circle btn-danger text-white ">CL</a>
+																{% elseif role =="ROLE_COMMERCIAL" %}
+																	<a class="btn btn-circle btn-success text-white">C</a>
+																{% endif %}
+															{% endfor %}
+														</td>
+														<td>{{user.nom}}</td>
+														<td>{{user.prenom}}</td>
+														<td>{{user.email}}</td>
+														<td>
+															{% if is_granted('ROLE_ADMIN') %}
+																<a href="{{path('admin_edit_user_role',{id:user.id})}}" class="editer">
+																	<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+																</a>
+																<a href="{{path('admin_user_delete',{id:user.id})}}" title="Supprimer" class="delete" onclick="return confirm('Êtes vous vraiment sûr de supprimer cet utilisateur ?')">
+																	<i class="material-icons text-danger" title="Supprimer">&#xE872;</i>
+																</a>
+															{% endif %}
+														</td>
+													</tr>
+												</td>
+											</tbody>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<div class="clearfix">
+								<div class="hint-text">Affichage
+									<b>{{nbPage}}</b>
+									sur
+									<b>{{nbTotalPage}}</b>
+									Pages</div>
+								<ul class="pagination">
+									<li class="page-item">
+										{{ knp_pagination_render(users) }}
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</body>
+	</html>
+</div></div></div></body></html>{% endblock %}
