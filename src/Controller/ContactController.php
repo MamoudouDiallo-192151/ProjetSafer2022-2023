@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
+use App\Repository\CategorieRepository;
 use App\Repository\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +24,10 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contacter', name: 'app_contact', methods: ['GET', 'POST'])]
-    public function new(Request $request, ContactRepository $contactRepository, ContactNotification $notification): Response
+    public function new(Request $request, ContactRepository $contactRepository, ContactNotification $notification, CategorieRepository $rep): Response
     {
         $contact = new Contact();
+        $categories = $rep->findAll();
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
@@ -39,6 +41,8 @@ class ContactController extends AbstractController
         return $this->render('pages/contact/contact.html.twig', [
             'contact' => $contact,
             'form' => $form->createView(),
+            'categories' => $categories,
+
         ]);
     }
 
