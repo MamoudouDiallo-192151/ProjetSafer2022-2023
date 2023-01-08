@@ -1,0 +1,73 @@
+{% extends "base.html.twig" %}
+{% block title %}Mes favoris
+{% endblock %}
+{% block body %}
+	<body>
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section spad set-bg" data-setbg="img/breadcrumb-bg.jpg">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="breadcrumb-text">
+							<h4>Mes favoris</h4>
+							<div class="bt-option">
+								<a href="./index.html">
+									<i class="fa fa-home"></i>
+									Accueil</a>
+								<span>Favoris</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+
+		<!-- Agent Section Begin -->
+		<section class="agent-section spad">
+			<div class="container">
+				<div class="as-slider owl-carousel">
+					<div class="row">
+						{% if porteur.id==app.user.id %}
+							{% for bien in favoris %}
+								<div class="col-lg-4 col-md-6">
+
+									<div class="as-item">
+										<img src="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="">
+
+										<div class="as-text">
+											<div class="at-title">
+												<h6>{{porteur.nom}}
+													{{porteur.prenom}}</h6>
+												<div class="rating-star">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-half-o"></i>
+												</div>
+											</div>
+											<ul>
+												<li>Référence
+													<span>{{ bien.reference }}</span>
+												</li>
+												<li>Intitulé
+													<span>{{bien.titre}}</span>
+												</li>
+												<li>Surface
+													<span>{{bien.surface}}</span>
+												</li>
+											</ul>
+											<a href="{{path('bien_show',{id:bien.id})}}" class="primary-btn">voir plus</a>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+			</section>
+			<!-- Agent Section End -->
+		</body>
+	</body>
+{% endblock %}

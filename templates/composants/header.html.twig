@@ -102,14 +102,14 @@
 									<li>
 										<a href="{{path('bien_index')}}">Nos Biens</a>
 									</li>
-									<li>
-										<a href="./profile.html">Mes favoris</a>
-									</li>
-									<li>
-										{% if app.user%}
+									{% if app.user%}
+										<li>
+											<a href="{{path('mes_favoris',{id:app.user.id})}}">Mes favoris</a>
+										</li>
+										<li>
 											<a href="{{path('porteur_edit_profile',{id:app.user.id})}}" class="dropdown-item">Profile</a>
-										{% endif %}
-									</li>
+										</li>
+									{% endif %}
 									<li>
 										<a href="./property-comparison.html">Property Comperison</a>
 									</li>

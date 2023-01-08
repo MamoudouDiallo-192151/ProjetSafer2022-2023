@@ -1,0 +1,19 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<div class="mt-4 p-5 bg-success text-white rounded">
+	<h1>Bien mis en favoris par
+		{{porteur.nom}}
+		{{porteur.prenom}}
+	</h1>
+	<div class="">Titre du bien:
+		<b>{{ bien.titre }}</b>
+	</div>
+	<div class="">
+		Nom et Prénom du porteur:
+		{{ porteur.nom}}
+		{{ porteur.prenom}}</div>
+
+	<div class="">
+		Adresse  email:
+		{{ porteur.email}}</div>
+</div>
+<a class="" href="{{url('bien_show',{'id': bien.id})}}">Voir plus de détails sur le site</a>

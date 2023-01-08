@@ -12,6 +12,12 @@
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
 			{% endfor %}
+			{% for message in app.flashes('favoris') %}
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
 			<!-- Property Section Begin -->
 			<section class="property-section latest-property-section spad">
 				<div class="container">
@@ -26,13 +32,11 @@
 								<ul>
 									<li data-filter="all">Categories</li>
 									<li data-filter=".apart"></li>
-
 								</ul>
 							</div>
 						</div>
 					</div>
 					<div class="row property-filter">
-
 						{% for bien in biens %}
 							<div class="col-lg-4 col-md-6 mix all house">
 								<div class="property-item">
@@ -48,9 +52,23 @@
 									{% endif %}
 								</div>
 								<div class="pi-text">
-									<a href="#" class="heart-icon">
-										<span class="icon_heart_alt"></span>
-									</a>
+									{% if app.user %}
+										{% for favoris in bien.favoris %}
+											{% if favoris.id==app.user.id %}
+												<a href="{{ path('retirer_favoris', {id: bien.id})}}" class="heart-icon">
+													<i class="fas fa-heart"></i>
+												</a>
+											{% else %}
+												<a href="{{ path('ajout_favoris', {id: bien.id})}}" class="heart-icon">
+													<i class="far fa-heart"></i>
+												</a>
+											{% endif %}
+										{% else %}
+											<a href="{{ path('ajout_favoris', {id: bien.id})}}" class="heart-icon">
+												<i class="far fa-heart"></i>
+											</a>
+										{% endfor %}
+									{% endif %}
 									<div class="pt-price">{{bien.prix}}£<span>
 											{% if bien.statusBien==0 %}/mois
 											{% endif %}
@@ -281,7 +299,7 @@
 							<div class="testimonial-item">
 								<div class="ti-text">
 									<p>Lorem ipsum dolor amet, consectetur adipiscing elit, seiusmod tempor incididunt ut labore
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		                                magna aliqua. Quis ipsum suspendisse ultrices gravida accumsan lacus vel facilisis.</p>
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										                                magna aliqua. Quis ipsum suspendisse ultrices gravida accumsan lacus vel facilisis.</p>
 								</div>
 								<div class="ti-author">
 									<div class="ta-pic">
@@ -305,7 +323,7 @@
 							<div class="testimonial-item">
 								<div class="ti-text">
 									<p>Lorem ipsum dolor amet, consectetur adipiscing elit, seiusmod tempor incididunt ut labore
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		                                magna aliqua. Quis ipsum suspendisse ultrices gravida accumsan lacus vel facilisis.</p>
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										                                magna aliqua. Quis ipsum suspendisse ultrices gravida accumsan lacus vel facilisis.</p>
 								</div>
 								<div class="ti-author">
 									<div class="ta-pic">

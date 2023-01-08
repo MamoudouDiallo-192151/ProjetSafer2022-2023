@@ -3,8 +3,13 @@
 namespace App\Controller\admin;
 
 use App\Entity\Administrateur;
+use App\Entity\Utilisateur;
+use App\Entity\UtilisateurSearch;
 use App\Form\AdministrateurType;
 use App\Form\UtilisateurProfileType;
+use App\Form\UtilisateurRoleType;
+use App\Form\UtilisateurSearchType;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +21,31 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
+
+    /**
+     * Cette methode affiche la liste des users avec pagination et une barre de rechercher afin
+     * de supprimer ounnon un utilisateur
+     *
+     * @param UtilisateurRepository $userRepository
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/utilisateurs', name: 'admin_users')]
+    public function findAllUsers(UtilisateurRepository $userRepository, Request $request): Response
+    {
+        $nbUsers = $userRepository->getNbreUser();
+        $nbToTalPages = ceil(($nbUsers) / 3);
+        // dd($nbreDevis);
+        $search = new UtilisateurSearch();
+        $form = $this->createForm(UtilisateurSearchType::class, $search);
+        $form->handleRequest($request);
+        return $this->render('admin/user/user.html.twig', [
+            'users' => $userRepository->paginateAllUtilisateurs($search, $request->query->getInt('page', 1)),
+            'formSearch' => $form->createView(),
+            'nbPage' => $request->query->getInt('page', 1),
+            'nbTotalPage' => $nbToTalPages,
+        ]);
+    }
     /**
      * Cette methode permet d'incrire des admin de role admin 
      *
@@ -55,7 +85,7 @@ class AdminController extends AbstractController
     /**
      *      * Cette methode permet aux admin de modifier leurs roles
      */
-    #[Route('/profile_admin/{id}', name: 'admin_edit_profile', methods: ['GET', 'POST'])]
+    #[Route('/profile/{id}/edit', name: 'admin_edit_profile', methods: ['GET', 'POST'])]
     public function editerProfile(Administrateur $user, Request $request, EntityManagerInterface $entityManager): Response
     {
         //si le user n'est pas connecté
@@ -84,14 +114,14 @@ class AdminController extends AbstractController
      * Cette méthode permet  à l'admin ayant le role superAdmin de modifier le role des users
      */
 
-    #[Route('/editer_role_utilisateur/{id}', name: 'admin_edit_user_role', methods: ['GET', 'POST'])]
+    #[Route('/role_utilisateur/{id}/editer', name: 'admin_edit_user_role', methods: ['GET', 'POST'])]
     public function editUserRole(Request $request, Utilisateur $user, UtilisateurRepository $userRepository): Response
     {
         $form = $this->createForm(UtilisateurRoleType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user);
+            $userRepository->save($user, true);
             $this->addFlash("success", "Le rôle de l'utilisateur à été modifié avec success");
             return $this->redirectToRoute('admin_users', [], Response::HTTP_SEE_OTHER);
         }
@@ -100,5 +130,17 @@ class AdminController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
+    }
+
+
+    #[Route('/{id}/user_delete', name: 'admin_user_delete')]
+    public function delete(Utilisateur $user, UtilisateurRepository $utilisateurRepository): Response
+    {
+        //if ($this->isCsrfTokenValid('delete' . $service->getId(), $request->request->get('_token'))) {
+        $utilisateurRepository->remove($user, true);
+        $this->addFlash('success', 'Utilisateur supprimé avec succes');
+        //}
+
+        return $this->redirectToRoute('admin_users', [], Response::HTTP_SEE_OTHER);
     }
 }

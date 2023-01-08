@@ -1,4 +1,4 @@
-{% extends 'admin/dashboard/base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 {% block title %}Accueil
 {% endblock %}
 
@@ -53,12 +53,11 @@
 													</h2>
 												</div>
 												<div class="col-sm-6">
-													<div class="form-group mx-sm-3">
-														<a href="{{path('commercial_form_register')}}" class="btn btn-primary">
-															<i class="material-icons">&#xE147;</i>
-															<span>Ajouter un commercial</span>
+													<div class="form-group mx-sm-3 text-right">
+														<a href="{{path('admin_register_form')}}" class="btn btn-primary">
+															<span>Ajouter un utilisateur</span>
 														</a>
-														<div class="text-right">
+														<div class="text-right mt-2">
 															{{form_start(formSearch)}}
 															<div class="col-sm-7 text-right">{{form_row(formSearch.nomUtilisateur,{'attr': {'class': 'form-control','placeholder': "Nom de l'utilisateur"}})}}
 																<button class="btn btn-sm btn-success mt-2">
@@ -101,10 +100,10 @@
 															{% for role in user.roles %}
 																{% if role == 'ROLE_ADMIN' %}
 																	<a class="btn btn-circle btn-info text-white">A</a>
-																{% elseif role =="ROLE_CLIENT" %}
-																	<a class="btn btn-circle btn-danger text-white ">CL</a>
-																{% elseif role =="ROLE_COMMERCIAL" %}
-																	<a class="btn btn-circle btn-success text-white">C</a>
+																{% elseif role =="ROLE_PORTEUR" %}
+																	<a class="btn btn-circle btn-danger text-white ">P</a>
+																{% elseif role =="ROLE_SUPERADMIN" %}
+																	<a class="btn btn-circle btn-success text-white">SA</a>
 																{% endif %}
 															{% endfor %}
 														</td>
@@ -113,11 +112,11 @@
 														<td>{{user.email}}</td>
 														<td>
 															{% if is_granted('ROLE_ADMIN') %}
-																<a href="{{path('admin_edit_user_role',{id:user.id})}}" class="editer">
-																	<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+																<a href="{{path('admin_edit_user_role',{id:user.id})}}" class="btn btn-secondary">
+																	Modifier
 																</a>
-																<a href="{{path('admin_user_delete',{id:user.id})}}" title="Supprimer" class="delete" onclick="return confirm('Êtes vous vraiment sûr de supprimer cet utilisateur ?')">
-																	<i class="material-icons text-danger" title="Supprimer">&#xE872;</i>
+																<a href="{{path('admin_user_delete',{id:user.id})}}" class="btn btn-danger" class="delete" onclick="return confirm('Êtes vous vraiment sûr de supprimer cet utilisateur ?')">
+																	Supprimer
 																</a>
 															{% endif %}
 														</td>
@@ -146,4 +145,4 @@
 			</div>
 		</body>
 	</html>
-</div></div></div></body></html>{% endblock %}
+{% endblock %}

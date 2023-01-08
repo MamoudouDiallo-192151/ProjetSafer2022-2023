@@ -2,7 +2,9 @@
 
 namespace App\Notification;
 
+use App\Entity\Bien;
 use App\Entity\Contact;
+use App\Entity\Porteur;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 
@@ -50,6 +52,30 @@ class ContactNotification
             )
             ->context([
                 'contact' => $contact,
+            ]);
+        $this->mailer->send($message);
+    }
+    /**
+     * Cette function permet d'envoyer un email lorsqu'un bien est mis en favoris par un porteur de projet
+     *
+     * @param Bien $bien
+     * @return void
+     */
+    public function notifierSaferPourBienMisEnFavoris(Bien $bien)
+    {
+        $favoris = $bien->getFavoris();
+        foreach ($favoris as $key => $porteur)
+            $email = $porteur->getEmail();
+        $message  = (new TemplatedEmail())
+            ->from($email)
+            ->subject("Bien ajouter aux  favoris")
+            ->to('safer.support@gmail.com')
+            ->htmlTemplate(
+                'email/ajouter_favoris.html.twig',
+            )
+            ->context([
+                'bien' => $bien,
+                'porteur' => $porteur
             ]);
         $this->mailer->send($message);
     }
