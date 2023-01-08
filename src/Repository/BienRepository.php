@@ -78,6 +78,8 @@ class BienRepository extends ServiceEntityRepository
         return  $nbBiens;
     }
 
+
+
     /**
      * cette function permet de calculer le nbre de bien en favoris
      *
@@ -158,6 +160,28 @@ class BienRepository extends ServiceEntityRepository
             ->setMaxResults(3)
             ->getQuery()
             ->getResult();
+    }
+
+
+    /**
+     * cette function permet de génerer la requete pour tous les enrégistrements visible et aficher les biens en favoris 
+     *@param Bien $bien
+     *@return Bien
+     */
+    public function getBienEnFavoris(): array
+    {
+        return $this->findBienEnFavoris()
+            ->getQuery()
+            ->getResult();
+    }
+    /**
+     * cette function permet de génerer la requete pour tous les enrégistrements visible et aficher les biens en favoris avec querybuilder
+     * @return QueryBuilder
+     */
+    private function findBienEnFavoris(): ORMQueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.isFavoris=true');
     }
 
     /**

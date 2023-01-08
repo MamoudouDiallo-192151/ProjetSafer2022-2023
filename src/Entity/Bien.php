@@ -90,6 +90,9 @@ class Bien
     #[ORM\ManyToMany(targetEntity: Porteur::class, inversedBy: 'favoris')]
     private Collection $favoris;
 
+    #[ORM\Column]
+    private ?bool $isEnvoyer = null;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -284,6 +287,18 @@ class Bien
     public function removeFavori(Porteur $favori): self
     {
         $this->favoris->removeElement($favori);
+
+        return $this;
+    }
+
+    public function isIsEnvoyer(): ?bool
+    {
+        return $this->isEnvoyer;
+    }
+
+    public function setIsEnvoyer(bool $isEnvoyer): self
+    {
+        $this->isEnvoyer = $isEnvoyer;
 
         return $this;
     }

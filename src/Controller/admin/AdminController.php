@@ -71,6 +71,7 @@ class AdminController extends AbstractController
             'nbTotalPage' => $nbToTalPages,
         ]);
     }
+    
     /**
      * Cette methode permet d'incrire des admin de role admin 
      *

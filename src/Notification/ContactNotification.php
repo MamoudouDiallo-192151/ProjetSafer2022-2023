@@ -3,6 +3,7 @@
 namespace App\Notification;
 
 use App\Entity\Bien;
+use App\Entity\Categorie;
 use App\Entity\Contact;
 use App\Entity\Porteur;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -75,6 +76,33 @@ class ContactNotification
             )
             ->context([
                 'bien' => $bien,
+                'porteur' => $porteur
+            ]);
+        $this->mailer->send($message);
+    }
+
+    /**
+     * Cette function permet d'envoyer un email au porteur de projet pour des biens similaires
+     *
+     * @param Bien $bien
+     * @return void
+     */
+    public function notifierPorteurPourBienMisEnFavorisSimilaire(Bien $bien)
+    {
+
+        $favoris = $bien->getFavoris();
+        foreach ($favoris as $key => $porteur)
+            $email = $porteur->getEmail();
+        $categorie = $bien->getCategorie();
+        $message  = (new TemplatedEmail())
+            ->from('safer.support@gmail.com')
+            ->subject("Ces biens pouraient vous intérésser")
+            ->to($email)
+            ->htmlTemplate(
+                'email/similaire_favoris.html.twig',
+            )
+            ->context([
+                'categorie' => $categorie,
                 'porteur' => $porteur
             ]);
         $this->mailer->send($message);
