@@ -22,7 +22,6 @@
 				<span>125-668-886</span>
 			</li>
 		</ul>
-		<a href="#" class="hw-btn">Submit property</a>
 	</div>
 	<div class="om-social">
 		<a href="#">
@@ -49,9 +48,9 @@
 	<div class="hs-top">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-2">
+				<div class="col-lg-1">
 					<div class="logo">
-						<a href="./index.html"><img src="{{asset('img/logo.png')}}" alt=""></a>
+						<a href="{{path('app_accueil')}}"><img src="{{asset('img/logo.png')}}" style="" alt=""></a>
 					</div>
 				</div>
 				<div class="col-lg-10">
@@ -110,12 +109,6 @@
 											<a href="{{path('porteur_edit_profile',{id:app.user.id})}}" class="dropdown-item">Profile</a>
 										</li>
 									{% endif %}
-									<li>
-										<a href="./property-comparison.html">Property Comperison</a>
-									</li>
-									<li>
-										<a href="./property-submit.html">Property Submit</a>
-									</li>
 								</ul>
 							</li>
 							<li>
@@ -134,7 +127,7 @@
 								<a href="./agents.html">Agents</a>
 							</li>
 							<li>
-								<a href="./about.html">A propos</a>
+								<a href="{{path('app_apropos')}}">A propos</a>
 							</li>
 							<li>
 								<a href="./blog.html">Blog</a>

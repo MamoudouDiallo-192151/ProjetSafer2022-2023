@@ -63,6 +63,53 @@ class BienRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * cette function permet de calculer le nbre de total de bien
+     *
+     * @return int
+     */
+    public function getNbreBien(): int
+    {
+        // 3. Query how many rows are there in the Articles table
+        $nbBiens = $this->createQueryBuilder('d')
+            ->select('count(d.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        return  $nbBiens;
+    }
+
+    /**
+     * cette function permet de calculer le nbre de bien en favoris
+     *
+     * @return int
+     */
+    public function getNbreBienEnFavoris(): int
+    {
+        // 3. Query how many rows are there in the Articles table
+        $nbBiens = $this->createQueryBuilder('d')
+            ->select('count(d.id)')
+            ->where('d.isFavoris=true')
+            ->getQuery()
+            ->getSingleScalarResult();
+        return  $nbBiens;
+    }
+
+    /**
+     * cette function permet de calculer le nbre de bien non en favoris
+     *
+     * @return int
+     */
+    public function getNbreBienNonFavoris(): int
+    {
+        // 3. Query how many rows are there in the Articles table
+        $nbBiens = $this->createQueryBuilder('d')
+            ->select('count(d.id)')
+            ->where('d.isFavoris=false')
+            ->getQuery()
+            ->getSingleScalarResult();
+        return  $nbBiens;
+    }
+
 
     /**
      * Cette function permet de paginer les  biens et d'effectuer une recherche multicritère

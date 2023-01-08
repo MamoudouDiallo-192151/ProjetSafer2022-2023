@@ -37,7 +37,7 @@ class BienController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'bien_index')]
-    public function index(BienRepository $rep, Request $request): Response
+    public function index(BienRepository $rep, Request $request, CategorieRepository $categorieRepository): Response
     {
         $search = new BienSearch();
         $form = $this->createForm(BienSearchType::class, $search);
@@ -45,7 +45,8 @@ class BienController extends AbstractController
         return $this->render('pages/bien/index.html.twig', [
             'biens' => $rep->paginateAllVisibleQuery($search, $request->query->getInt('page', 1)),
             'formSearch' => $form->createView(),
-            'current_menu' => 'biens'
+            'current_menu' => 'biens',
+            'categories' => $categorieRepository->findAll()
         ]);
     }
     /**

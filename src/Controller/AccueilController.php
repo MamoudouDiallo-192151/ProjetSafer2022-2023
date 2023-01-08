@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Categorie;
+use App\Entity\Utilisateur;
 use App\Repository\BienRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Repository\CategorieRepository;
+use App\Repository\UtilisateurRepository;
 
 class AccueilController extends AbstractController
 {
@@ -21,13 +23,14 @@ class AccueilController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'app_accueil')]
-    public function index(BienRepository $bienRepository, CategorieRepository $rep): Response
+    public function index(BienRepository $bienRepository, CategorieRepository $rep, UtilisateurRepository $utilisateurRepository): Response
     {
         $categories = $rep->findAll();
         $biens = $bienRepository->findLatestBien();
-        return $this->render('pages/accueil.html.twig', [
+        return $this->render('pages/accueil/accueil.html.twig', [
             'biens' => $biens,
             'categories' => $categories,
+            'utilisateurs' => $utilisateurRepository->findAll()
 
         ]);
     }

@@ -11,22 +11,41 @@
 		<div class="row">
 			{% for bien in biens %}
 				<div class="col-lg-4 col-md-6">
-					<div class="property-item">
-						<div class="pi-pic set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 90%; height: 200px;">
-						{% endif %}
-						{% if bien.statusBien==1 %}
-							<div class="label c-red">Vente</div>
-						{% else %}
-							<div class="label">
-								Location
-							</div>
+					<a href="{{path('bien_show',{id:bien.id})}}">
+						<div class="property-item">
 
-						{% endif %}
-					</div>
+							<div class="pi-pic set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 90%; height: 200px;">
+
+							{% endif %}
+
+							{% if bien.statusBien==1 %}
+								<div class="label c-red">En vente</div>
+							{% else %}
+								<div class="label">
+									En Location
+								</div>
+
+							{% endif %}
+						</div>
+					</a>
 					<div class="pi-text">
-						<a href="#" class="heart-icon">
-							<span class="icon_heart_alt"></span>
-						</a>
+						{% if app.user %}
+							{% for favoris in bien.favoris %}
+								{% if favoris.id==app.user.id %}
+									<a href="{{ path('retirer_favoris', {id: bien.id})}}" class="heart-icon">
+										<i class="fas fa-heart"></i>
+									</a>
+								{% else %}
+									<a href="{{ path('ajout_favoris', {id: bien.id})}}" class="heart-icon">
+										<i class="far fa-heart"></i>
+									</a>
+								{% endif %}
+							{% else %}
+								<a href="{{ path('ajout_favoris', {id: bien.id})}}" class="heart-icon">
+									<i class="far fa-heart"></i>
+								</a>
+							{% endfor %}
+						{% endif %}
 						<div class="pt-price">{{bien.prix}}£<span>
 								{% if bien.statusBien==0 %}/mois
 								{% endif %}

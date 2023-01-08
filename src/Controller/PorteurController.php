@@ -61,7 +61,7 @@ class PorteurController extends AbstractController
      * cette function permet au porteur de modifier son profile
      */
     #[Route('porteur/editer_profile/{id}', name: 'porteur_edit_profile', methods: ['GET', 'POST'])]
-    public function editerProfile(Porteur $user, Request $request, EntityManagerInterface $entityManager): Response
+    public function editerProfile(Porteur $user, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository): Response
     {
         //si le user n'est pas connecté
         if (!$this->getUser()) {
@@ -80,10 +80,13 @@ class PorteurController extends AbstractController
             return $this->redirectToRoute('app_accueil');
         }
         return $this->render('pages/profile/profile.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'categories' => $categorieRepository->findAll()
         ]);
     }
-
+    /**
+     * Cette funcion permet de mettre en favoris un bien 
+     */
     #[Route('/favoris/ajout/{id}', name: 'ajout_favoris', methods: ['GET'])]
     public function ajoutFavoris(Bien $bien, ContactNotification $notification, EntityManagerInterface $entityManager): Response
     {
@@ -98,7 +101,9 @@ class PorteurController extends AbstractController
         $notification->notifierSaferPourBienMisEnFavoris($bien);
         return $this->redirectToRoute('app_accueil');
     }
-
+    /**
+     * cette function permet de retirer des favoris un bien
+     */
     #[Route('/favoris/retirer/{id}', name: 'retirer_favoris', methods: ['GET'])]
     public function retirerFavoris(Bien $bien, EntityManagerInterface $entityManager): Response
     {
@@ -112,7 +117,9 @@ class PorteurController extends AbstractController
         $this->addFlash('favoris', "Vous avez  retirer de vos favoris ce bien:" . $bien->getTitre() . "");
         return $this->redirectToRoute('app_accueil');
     }
-
+    /**
+     * Cette  function permet de visualiser mes favoris
+     */
     #[Route('/favoris/mes_favoris/{id}', name: 'mes_favoris', methods: ['GET'])]
     public function mesFavoris(int $id, PorteurRepository $rep, CategorieRepository $categorieRepository): Response
     {

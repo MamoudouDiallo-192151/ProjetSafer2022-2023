@@ -1,0 +1,313 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<!DOCTYPE html>
+	<html lang="zxx">
+		<body>
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+			{% for message in app.flashes('favoris') %}
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					{{message}}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+			<!-- Property Section Begin -->
+			<section class="property-section latest-property-section spad">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="section-title">
+								<h4>Nos Biens</h4>
+							</div>
+						</div>
+					</div>
+					<div class="row property-filter">
+						{% for bien in biens %}
+							<div class="col-lg-4 col-md-6 mix all house">
+								<a href="{{path('bien_show',{id:bien.id})}}">
+									<div class="property-item">
+										<div class="pi-pic set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 90%; height: 200px;">
+										{% endif %}
+										{% if bien.statusBien==1 %}
+											<div class="label c-red">En vente</div>
+										{% else %}
+											<div class="label">
+												En Location
+											</div>
+										{% endif %}
+									</div>
+								</a>
+								<div class="pi-text">
+									{% if app.user %}
+										{% for favoris in bien.favoris %}
+											{% if favoris.id==app.user.id %}
+												<a href="{{ path('retirer_favoris', {id: bien.id})}}" class="heart-icon">
+													<i class="fas fa-heart"></i>
+												</a>
+											{% else %}
+												<a href="{{ path('ajout_favoris', {id: bien.id})}}" class="heart-icon">
+													<i class="far fa-heart"></i>
+												</a>
+											{% endif %}
+										{% else %}
+											<a href="{{ path('ajout_favoris', {id: bien.id})}}" class="heart-icon">
+												<i class="far fa-heart"></i>
+											</a>
+										{% endfor %}
+									{% endif %}
+									<div class="pt-price">{{bien.prix}}£<span>
+											{% if bien.statusBien==0 %}/mois
+											{% endif %}
+										</span>
+									</div>
+									<h5>
+										<a href="#">{{bien.titre}}</a>
+									</h5>
+									<p>
+										<span class="icon_pin_alt"></span>
+										{{bien.localisation}}</p>
+									<ul>
+										<li>
+											<i class="fa fa-object-group"></i>
+											{{bien.surface}}
+											m2</li>
+
+									</ul>
+									<div class="pi-agent">
+										<div class="pa-item">
+											<div class="pa-info">
+												<img src="img/property/posted-by/pb-1.jpg" alt="">
+												<h6>Diallo Mamoudou</h6>
+											</div>
+											<div class="pa-text">
+												123-455-688
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+			<!-- Property Section End -->
+			<!-- Feature Property Section Begin -->
+			<section class="feature-property-section spad">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-4 p-0">
+							<div class="feature-property-left">
+								<div class="section-title">
+									<h4>Nos categories</h4>
+								</div>
+								<ul>
+									{% for cat in categories %}
+										<li>
+											<a href="{{path('categorie_show',{id:cat.id})}}">{{cat.designation}}</a>
+										</li>
+									{% endfor %}
+								</ul>
+								<a href="{{path('bien_index')}}">Voir tous nos biens</a>
+							</div>
+						</div>
+						<div class="col-lg-8 p-0">
+							<div class="fp-slider owl-carousel">
+								{% for cat in categories %}
+									{% for bien in cat.biens %}
+										<div class="fp-item set-bg" {% if bien.image %} data-setbg="{{ vich_uploader_asset(bien,'imageFile') | imagine_filter('my_thumb') }}" alt="imgcache" style=" width: 80%; height: 400px;">
+										{% endif %}
+										<div class="fp-text">
+											<h5 class="title">{{cat.designation}}</h5>
+											<p>
+												<span class="icon_pin_alt"></span>
+												{{bien.localisation}}</p>
+											{% if bien.statusBien==1 %}
+												<div class="label c-red">En vente</div>
+											{% else %}
+												<div class="label">
+													En Location
+												</div>
+											{% endif %}
+											<h5>{{bien.prix}}<span>
+													{% if bien.statusBien==0 %}/mois
+													{% endif %}
+												</span>
+											</h5>
+											<ul></ul>
+										</div>
+									</div>
+								{% endfor %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Feature Property Section End -->
+			<!-- Team Section Begin -->
+			<section class="team-section spad">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-8 col-md-8">
+							<div class="section-title">
+								<h4></h4>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4">
+							<div class="team-btn">
+								<a href="#">
+									<i class="fa fa-user"></i>
+									Nos conseillers</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						{% for utilisateur in utilisateurs %}
+							{% for role in utilisateur.roles %}
+								{% if  role== 'ROLE_ADMIN'   %}
+									<div class="col-md-4">
+										<div class="ts-item">
+											<div class="ts-text">
+												{% if utilisateur.image %}
+													<img src=" {{ vich_uploader_asset(utilisateur,'imageFile') | imagine_filter('profil_thumb') }} " class="img-fluid rounded-circle mb-4" alt=" Photo de Profil">
+												{% else %}
+													Aucune photo disponible
+												{% endif %}
+												<h5>{{utilisateur.nom}}
+													{{utilisateur.prenom}}</h5>
+												<span>{{utilisateur.numeroTelephone}}</span>
+												<p>{{utilisateur.adresse}}</p>
+												<div class="ts-social">
+													<a href="#">
+														<i class="fa fa-facebook"></i>
+													</a>
+													<a href="#">
+														<i class="fa fa-twitter"></i>
+													</a>
+													<a href="#">
+														<i class="fa fa-envelope-o"></i>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+
+			<!-- Team Section End -->
+			<!-- Categories Section Begin -->
+			<section class="categories-section">
+				{% for cat in categories %}
+					{% set  nbreBien= 0 %}<div class="cs-item-list">
+						<div class="cs-item set-bg" data-setbg="img/categories/cat-2.jpg">
+							<div class="cs-text">
+								{% for bien in cat.biens %}
+									{% set  nbreBien= nbreBien+1 %}
+								{% endfor %}
+								<h5>{{cat.designation}}</h5>
+								<span>
+									{{nbreBien}}
+									biens</span>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</section>
+			<!-- Categories Section End -->
+
+			<!-- Testimonial Section End -->
+			<!-- Logo Carousel Begin -->
+				<div class="logo-carousel"> <div class="container">
+					<div class="lc-slider owl-carousel">
+						<a href="#" class="lc-item">
+							<div class="lc-item-inner">
+								<img src="img/logo-carousel/lc-1.png" alt="">
+							</div>
+						</a>
+						<a href="#" class="lc-item">
+							<div class="lc-item-inner">
+								<img src="img/logo-carousel/lc-2.png" alt="">
+							</div>
+						</a>
+						<a href="#" class="lc-item">
+							<div class="lc-item-inner">
+								<img src="img/logo-carousel/lc-3.png" alt="">
+							</div>
+						</a>
+						<a href="#" class="lc-item">
+							<div class="lc-item-inner">
+								<img src="img/logo-carousel/lc-4.png" alt="">
+							</div>
+						</a>
+						<a href="#" class="lc-item">
+							<div class="lc-item-inner">
+								<img src="img/logo-carousel/lc-5.png" alt="">
+							</div>
+						</a>
+						<a href="#" class="lc-item">
+							<div class="lc-item-inner">
+								<img src="img/logo-carousel/lc-6.png" alt="">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- Logo Carousel End -->
+			<!-- Contact Section Begin -->
+			<section class="contact-section">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="contact-info">
+								<div class="ci-item">
+									<div class="ci-icon">
+										<i class="fa fa-map-marker"></i>
+									</div>
+									<div class="ci-text">
+										<h5>Address</h5>
+										<p>160 Pennsylvania Ave NW, Washington, Castle, PA 16101-5161</p>
+									</div>
+								</div>
+								<div class="ci-item">
+									<div class="ci-icon">
+										<i class="fa fa-mobile"></i>
+									</div>
+									<div class="ci-text">
+										<h5>Phone</h5>
+										<ul>
+											<li>125-711-811</li>
+											<li>125-668-886</li>
+										</ul>
+									</div>
+								</div>
+								<div class="ci-item">
+									<div class="ci-icon">
+										<i class="fa fa-headphones"></i>
+									</div>
+									<div class="ci-text">
+										<h5>Support</h5>
+										<p>Support.aler@gmail.com</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="cs-map">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d735515.5813275519!2d-80.41163541934742!3d43.93644386501528!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882a55bbf3de23d7%3A0x3ada5af229b47375!2sMono%2C%20ON%2C%20Canada!5e0!3m2!1sen!2sbd!4v1583262687289!5m2!1sen!2sbd" height="450" style="border:0;" allowfullscreen=""></iframe>
+				</div>
+			</section>
+			<!-- Contact Section End -->
+		</body>
+	</html>
+{% endblock %}

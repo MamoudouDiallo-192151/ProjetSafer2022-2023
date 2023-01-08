@@ -9,6 +9,8 @@ use App\Form\AdministrateurType;
 use App\Form\UtilisateurProfileType;
 use App\Form\UtilisateurRoleType;
 use App\Form\UtilisateurSearchType;
+use App\Repository\BienRepository;
+use App\Repository\CategorieRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +23,30 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
+    /**
+     * Cette methode de recuperer toutes les statistiques du site safer et l'envoie à la vue twig
+     *
+     * @param BienRepository $brep
+     * @param CategorieRepository $catrep
+     * @param UtilisateurRepository $utilisateurRepository
+     * @return Response
+     */
+    #[Route('/statistiques', name: 'admin_home')]
+    public function home(BienRepository $brep, CategorieRepository $catrep, UtilisateurRepository $utilisateurRepository): Response
+    {
+        $nbreBiens = $brep->getNbreBien();
+        $nbreBienEnFavoris = $brep->getNbreBienEnFavoris();
+        $nbreBienNonFavoris = $brep->getNbreBienNonFavoris();
+        $categories = $catrep->findAll();
+        return $this->render('admin/dashboard/statistiques.html.twig', [
+            'nbreBiens' => $nbreBiens,
+            'nbreBienNonFavoris' => $nbreBienNonFavoris,
+            'nbreBienEnFavoris' => $nbreBienEnFavoris,
+            'categories' => $categories,
+            'nbreUsers' => $utilisateurRepository->getNbreUser()
+
+        ]);
+    }
 
     /**
      * Cette methode affiche la liste des users avec pagination et une barre de rechercher afin
@@ -35,7 +61,6 @@ class AdminController extends AbstractController
     {
         $nbUsers = $userRepository->getNbreUser();
         $nbToTalPages = ceil(($nbUsers) / 3);
-        // dd($nbreDevis);
         $search = new UtilisateurSearch();
         $form = $this->createForm(UtilisateurSearchType::class, $search);
         $form->handleRequest($request);
